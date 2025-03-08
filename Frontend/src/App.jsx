@@ -1,7 +1,8 @@
 import React from "react";
+import Login from "./Pages/Login";
 
-function App() {
-  return <div className="font-bold text-blue-600">Hello World</div>;
-}
+const App = () => {
+  return <Login />;
+};
 
 export default App;
