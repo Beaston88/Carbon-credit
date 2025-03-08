@@ -1,7 +1,15 @@
 import React from "react";
 import backgroundImage from "../assets/image1.png";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+    const navigate = useNavigate();
+
+    const handleLogin = () => {
+        /////
+      navigate("/dashboard");
+    };
+
   return (
     <div
       className="min-h-screen bg-[#fcfcfc] brightness-90 bg-bottom bg-no-repeat"
