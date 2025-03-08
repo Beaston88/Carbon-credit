@@ -4,12 +4,10 @@ import backgroundImage from "../assets/image1.png";
 const Login = () => {
   return (
     <div
-      className="min-h-screen bg-no-repeat"
+      className="min-h-screen bg-[#fcfcfc] brightness-90 bg-bottom bg-no-repeat"
       style={{
         backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: "100vw 80vh",
-        backgroundPosition: "bottom",
-        backgroundRepeat: "no-repeat",
+        backgroundSize: "100vw 70vh",
       }}
     >
       <div className="flex justify-center items-start min-h-screen pt-30">
