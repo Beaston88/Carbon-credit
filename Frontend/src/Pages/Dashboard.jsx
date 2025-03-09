@@ -10,6 +10,7 @@ import {
   FiBell,
   FiUsers,
 } from "react-icons/fi";
+import { pendingVerifications } from "../Constants/index.js";
 
 const Dashboard = () => {
   return (
@@ -73,9 +74,9 @@ const Dashboard = () => {
         </header>
 
         {/* Main left & right */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* Left */}
-          <div className="border border-red-500">
+          <div>
             <h2 className="text-2xl font-semibold mt-8">
               Good Morning, Carbonchain User
             </h2>
@@ -129,49 +130,47 @@ const Dashboard = () => {
             <h3 className="text-lg font-semibold mb-4">
               December 2024 Activity
             </h3>
-            <div className="flex space-x-4 mb-6">
-              {["Dec 1", "Dec 2", "Dec 3", "Dec 4", "Dec 5"].map((date) => (
-                <button key={date} className="px-4 py-2 bg-gray-200 rounded-lg">
-                  {date}
-                </button>
-              ))}
+            <div className="flex justify-between mb-6">
+              {["Dec 1", "Dec 2", "Dec 3", "Dec 4", "Dec 5", "Dec 6"].map(
+                (date) => (
+                  <button
+                    key={date}
+                    className="px-4 py-2 bg-gray-200 rounded-xl"
+                  >
+                    {date}
+                  </button>
+                )
+              )}
             </div>
-
-            <h3 className="text-lg font-semibold mb-4">
-              Pending Verifications
-            </h3>
-            <ul className="space-y-4">
-              <li className="flex justify-between items-center bg-gray-200 p-3 rounded-lg">
-                <div>
-                  <p className="font-semibold">05 Government approval status</p>
-                  <p className="text-sm text-gray-600">
-                    8 of 12 verifications, Approval Board
-                  </p>
-                </div>
-                <p>14:00-15:30</p>
-              </li>
-              <li className="flex justify-between items-center bg-gray-200 p-3 rounded-lg">
-                <div>
-                  <p className="font-semibold">06 Buyer purchase progress</p>
-                  <p className="text-sm text-gray-600">
-                    8 of 12 purchases, Buyer Network
-                  </p>
-                </div>
-                <p>11:00-1:00</p>
-              </li>
-              <li className="flex justify-between items-center bg-gray-200 p-3 rounded-lg">
-                <div>
-                  <p className="font-semibold">07 Buyer negotiation call</p>
-                  <p className="text-sm text-gray-600">
-                    1 of 2, Virtual meeting
-                  </p>
-                </div>
-                <p>2:00-5:30</p>
-              </li>
-            </ul>
-            <button className="mt-4 px-4 py-2 bg-gray-300 rounded-lg">
-              View full schedule
-            </button>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">
+                Pending Verifications
+              </h3>
+              <ul className="space-y-4">
+                {pendingVerifications.map((item) => (
+                  <li
+                    key={item.id}
+                    className="flex justify-between items-center"
+                  >
+                    <div className="flex items-center space-x-4">
+                      <span className="bg-gray-300 text-black px-3 py-2 rounded-lg font-semibold">
+                        {item.id}
+                      </span>
+                      <div>
+                        <p className="font-semibold">{item.title}</p>
+                        <p className="text-sm text-gray-600">{item.details}</p>
+                      </div>
+                    </div>
+                    <p className="text-gray-800">{item.time}</p>
+                  </li>
+                ))}
+              </ul>
+              <div className="flex justify-center items-center">
+                <button className="mt-5 px-4 py-2 bg-gray-300 rounded-2xl w-1/2 cursor-pointer hover:bg-gray-400">
+                  View full schedule
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
