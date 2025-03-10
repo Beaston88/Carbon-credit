@@ -1,14 +1,15 @@
 import React from "react";
 import backgroundImage from "../assets/image1.png";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Login = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleLogin = () => {
-        /////
-      navigate("/dashboard");
-    };
+  const handleLogin = () => {
+    /////
+    navigate("/dashboard");
+  };
 
   return (
     <div
@@ -47,9 +48,9 @@ const Login = () => {
               <a href="#" className="hover:underline">
                 Forgot Password?
               </a>
-              <a href="#" className="hover:underline font-medium">
+              <Link to="/signup" className="hover:underline font-medium">
                 Sign up
-              </a>
+              </Link>
             </div>
 
             <button className="w-full bg-green-600 text-white py-3 font-bold rounded-lg hover:bg-green-700 transition">
