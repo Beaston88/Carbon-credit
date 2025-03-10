@@ -17,7 +17,7 @@ model user {
   address        String
   phone          String
   owner_name     String
-  waller_address String
+  wallet_address String
 
   transactionsSent     transactions[] @relation("SentTransactions")
   transactionsReceived transactions[] @relation("ReceivedTransactions")
