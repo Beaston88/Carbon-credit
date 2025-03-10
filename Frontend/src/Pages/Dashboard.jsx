@@ -1,79 +1,14 @@
 import React from "react";
-import {
-  FiHome,
-  FiShoppingCart,
-  FiCreditCard,
-  FiSettings,
-  FiLogOut,
-  FiMessageSquare,
-  FiUser,
-  FiBell,
-  FiUsers,
-} from "react-icons/fi";
+import { Sidebar, Header } from "../Components/Sidebar.jsx";
+import { FiUsers } from "react-icons/fi";
 import { pendingVerifications } from "../Constants/index.js";
 
 const Dashboard = () => {
   return (
-    //Sidebar
     <div className="flex min-h-screen bg-gray-100">
-      <aside className="w-64 h-screen bg-green-600 text-white p-6 flex flex-col justify-between fixed left-0 top-0 overflow-hidden">
-        <div>
-          <h1 className="text-2xl font-bold mb-6 tracking-wide">Dashboard</h1>
-          <nav className="space-y-4">
-            <a
-              href="#"
-              className="flex items-center gap-3 text-lg hover:text-gray-300"
-            >
-              <FiHome /> Pool
-            </a>
-            <a
-              href="#"
-              className="flex items-center gap-3 text-lg hover:text-gray-300"
-            >
-              <FiShoppingCart /> Transaction
-            </a>
-            <a
-              href="#"
-              className="flex items-center gap-3 text-lg hover:text-gray-300"
-            >
-              <FiCreditCard /> Credits
-            </a>
-            <a
-              href="#"
-              className="flex items-center gap-3 text-lg hover:text-gray-300"
-            >
-              <FiSettings /> Accounts
-            </a>
-          </nav>
-        </div>
-        <div>
-          <button className="flex items-center gap-3 text-lg hover:text-gray-300">
-            <FiLogOut /> Sign out
-          </button>
-        </div>
-      </aside>
-
+      <Sidebar />
       <div className="flex-1 p-8 ml-64">
-        <header className="flex justify-between items-center mb-6">
-          <input
-            type="text"
-            placeholder="Search for Carbon Credits"
-            className="w-1/2 p-2 border rounded-4xl"
-          />
-          <div className="flex items-center gap-4">
-            <button className="text-lg cursor-pointer">
-              <FiBell />
-            </button>
-            <button className="text-lg cursor-pointer">
-              <FiMessageSquare />
-            </button>
-            <button className="text-lg cursor-pointer">
-              <FiUser />
-            </button>
-          </div>
-        </header>
-
-        {/* Main left & right */}
+        <Header />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* Left */}
           <div>
@@ -114,7 +49,7 @@ const Dashboard = () => {
 
           {/* right */}
           <div>
-            <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-3 gap-4 mb-6 mt-10">
               <div className="bg-green-500 text-white p-4 rounded-lg">
                 <p className="text-3xl font-bold flex justify-center">81</p>
                 <p className="flex justify-center">Track your daily impact</p>
