@@ -93,10 +93,10 @@ const Dashboard = () => {
                 <p className="text-3xl font-bold">81</p>
                 <p>Track your daily impact</p>
               </div>
-              <div className="bg-green-500 text-white p-4 rounded-lg text-center">
+              <div className="flex justify-center items-center bg-green-500 text-white p-4 rounded-lg text-center">
                 <p>Verify your carbon transaction</p>
               </div>
-              <div className="bg-green-500 text-white p-4 rounded-lg text-center">
+              <div className="flex justify-center items-center bg-green-500 text-white p-4 rounded-lg text-center">
                 <p>Frequently asked questions</p>
               </div>
             </div>
