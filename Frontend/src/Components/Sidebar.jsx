@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FiMonitor,
   FiHome,
@@ -6,83 +6,84 @@ import {
   FiCreditCard,
   FiSettings,
   FiLogOut,
-  FiMessageSquare,
-  FiUser,
-  FiBell,
+  FiX,
+  FiMenu,
 } from "react-icons/fi";
 
-const Sidebar = ({ closeSidebar }) => {
-  return (
-    <aside className="w-64 h-screen bg-green-600 text-white p-6 flex flex-col justify-between">
-      <nav className="space-y-4">
-        <a
-          href="#"
-          className="flex items-center gap-3 text-lg hover:text-gray-300"
-          onClick={closeSidebar}
-        >
-          <FiMonitor /> Dashboard
-        </a>
-        <a
-          href="#"
-          className="flex items-center gap-3 text-lg hover:text-gray-300"
-          onClick={closeSidebar}
-        >
-          <FiHome /> Pool
-        </a>
-        <a
-          href="#"
-          className="flex items-center gap-3 text-lg hover:text-gray-300"
-          onClick={closeSidebar}
-        >
-          <FiShoppingCart /> Transaction
-        </a>
-        <a
-          href="#"
-          className="flex items-center gap-3 text-lg hover:text-gray-300"
-          onClick={closeSidebar}
-        >
-          <FiCreditCard /> Credits
-        </a>
-        <a
-          href="#"
-          className="flex items-center gap-3 text-lg hover:text-gray-300"
-          onClick={closeSidebar}
-        >
-          <FiSettings /> Accounts
-        </a>
-      </nav>
+const Sidebar = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  return (
+    <>
       <button
-        className="flex items-center gap-3 text-lg hover:text-gray-300"
-        onClick={closeSidebar}
+        className="md:hidden p-2 fixed top-4 left-4 z-50"
+        onClick={toggleSidebar}
       >
-        <FiLogOut /> Sign out
+        <FiMenu size={24} />
       </button>
-    </aside>
+
+      <aside
+        className={`fixed inset-y-0 left-0 w-64 bg-green-600 text-white p-6 flex flex-col justify-between z-50 transform ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 md:relative md:translate-x-0`}
+      >
+        <button
+          className="md:hidden absolute top-4 right-4 text-white"
+          onClick={toggleSidebar}
+        >
+          <FiX size={24} />
+        </button>
+
+        <nav className="space-y-4">
+          <a
+            href="#"
+            className="flex items-center gap-3 text-lg hover:text-gray-300"
+          >
+            <FiMonitor /> Dashboard
+          </a>
+          <a
+            href="#"
+            className="flex items-center gap-3 text-lg hover:text-gray-300"
+          >
+            <FiHome /> Pool
+          </a>
+          <a
+            href="#"
+            className="flex items-center gap-3 text-lg hover:text-gray-300"
+          >
+            <FiShoppingCart /> Transaction
+          </a>
+          <a
+            href="#"
+            className="flex items-center gap-3 text-lg hover:text-gray-300"
+          >
+            <FiCreditCard /> Credits
+          </a>
+          <a
+            href="#"
+            className="flex items-center gap-3 text-lg hover:text-gray-300"
+          >
+            <FiSettings /> Accounts
+          </a>
+        </nav>
+
+        <button className="flex items-center gap-3 text-lg hover:text-gray-300">
+          <FiLogOut /> Sign out
+        </button>
+      </aside>
+
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 backdrop-brightness-50 z-40 md:hidden"
+          onClick={toggleSidebar}
+        ></div>
+      )}
+    </>
   );
 };
 
-const Header = () => {
-  return (
-    <header className="flex justify-between items-center w-full p-4">
-      <input
-        type="text"
-        placeholder="Search for Carbon Credits"
-        className="w-1/2 p-2 border rounded-xl"
-      />
-      <div className="flex items-center gap-4">
-        <button className="text-lg cursor-pointer">
-          <FiBell />
-        </button>
-        <button className="text-lg cursor-pointer">
-          <FiMessageSquare />
-        </button>
-        <button className="text-lg cursor-pointer">
-          <FiUser />
-        </button>
-      </div>
-    </header>
-  );
-};
-
-export { Sidebar, Header };
+export default Sidebar;

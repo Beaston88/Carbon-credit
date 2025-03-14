@@ -1,52 +1,16 @@
-import React, { useState } from "react";
-import { Sidebar, Header } from "../Components/Sidebar.jsx";
-import { FiUsers, FiMenu } from "react-icons/fi";
+import React from "react";
+import Sidebar from "../Components/Sidebar.jsx";
+import Header from "../Components/Header.jsx";
+import { FiUsers } from "react-icons/fi";
 import { pendingVerifications } from "../Constants/index.js";
 
 const Dashboard = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const closeSidebar = () => {
-    if (isSidebarOpen) setIsSidebarOpen(false);
-  };
-
   return (
-    <div
-      className="min-h-screen bg-gray-100 flex flex-col md:flex-row"
-      onClick={closeSidebar}
-    >
-      {isSidebarOpen && (
-        <div
-          className="fixed inset-0 backdrop-brightness-50 z-40 md:hidden"
-          onClick={closeSidebar}
-        ></div>
-      )}
-
-      {/* Sidebar */}
-      <div
-        className={`fixed inset-y-0 left-0 w-64 z-50 transform ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } 
-        md:translate-x-0 transition-transform duration-300 md:relative md:flex`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <Sidebar closeSidebar={closeSidebar} />
-      </div>
+    <div className="min-h-screen bg-gray-100 flex flex-col md:flex-row">
+      <Sidebar />
 
       <div className="flex-1 p-4 md:p-8">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <button
-            className="md:hidden p-2"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsSidebarOpen(!isSidebarOpen);
-            }}
-          >
-            <FiMenu size={24} />
-          </button>
-          <Header />
-        </div>
+        <Header />
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* Left */}

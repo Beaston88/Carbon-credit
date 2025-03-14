@@ -1,5 +1,6 @@
 import React from "react";
-import { Sidebar, Header } from "../components/Sidebar.jsx";
+import Sidebar from "./Sidebar";
+import Header from "./Header";
 import CarbonCreditDetails from "./CarbonCreditDetails";
 import { AppProvider } from "./AppContext";
 import RemoveModal from "./RemoveModal";
