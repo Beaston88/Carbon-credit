@@ -6,9 +6,13 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3300;
 
+import indexRoutes from "./src/routes/index.routes";
+
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/api", indexRoutes);
 
 app.use((req: Request, res: Response) => {
   res.status(200).json({ message: "Api Working..." });
