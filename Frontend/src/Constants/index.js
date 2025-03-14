@@ -17,4 +17,23 @@ export const pendingVerifications = [
     details: "1 of 2, Virtual meeting",
     time: "2:00-5:30",
   },
+  {
+    id: "08",
+    title: "Buyer negotiation call",
+    details: "1 of 2, Virtual meeting",
+    time: "2:00-5:30",
+  },
+  {
+    id: "09",
+    title: "Buyer negotiation call",
+    details: "1 of 2, Virtual meeting",
+    time: "2:00-5:30",
+  },
+  {
+    id: "10",
+    title: "Buyer negotiation call",
+    details: "1 of 2, Virtual meeting",
+    time: "2:00-5:30",
+  },
+
 ];

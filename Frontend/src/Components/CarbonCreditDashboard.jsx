@@ -9,22 +9,18 @@ import ModifyModal from "./ModifyModal";
 function CarbonCreditDashboard() {
   return (
     <AppProvider>
-      <div className="flex min-h-screen bg-gray-100">
-        <div className="w-64 bg-lime-700 text-white shadow-md flex-shrink-0 h-screen fixed">
-          <Sidebar />
-        </div>
-
-        <div className="flex-1 ml-64">
+      <div className="h-screen flex overflow-hidden">
+        <Sidebar />
+        <div className="flex-1 flex flex-col overflow-auto h-full p-4 md:p-8">
           <Header />
 
-          <main className="bg-white bg-opacity-80 shadow-lg w-full h-full px-6 pt-4">
+          <main className="w-full h-full px-6 pt-4 overflow-auto">
             <CarbonCreditDetails />
             <RemoveModal />
-          <ModifyModal />
+            <ModifyModal />
           </main>
         </div>
       </div>
-      
     </AppProvider>
   );
 }
