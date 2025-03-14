@@ -3,6 +3,7 @@ import {
   authUser,
   deleteUser,
   createUser,
+  updateUser,
 } from "../controllers/user.controller";
 import { verifyAdmin } from "../middlewares/uac.middleware";
 const router = express.Router();
@@ -14,7 +15,7 @@ router.get("/:id", authUser);
 router.post("/", createUser);
 
 // update the user details
-// router.put("/:id", updateUser);
+router.put("/:id", updateUser);
 
 // delete the user from database
 router.delete("/:id", verifyAdmin, deleteUser);

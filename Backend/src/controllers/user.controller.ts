@@ -68,6 +68,26 @@ export async function createUser(req: IRequest, res: Response): Promise<any> {
   }
 }
 
+export async function updateUser(req: IRequest, res: Response): Promise<any> {
+  try {
+    if (!req.user) return new ApiResponse(401, "User not authenticated");
+    const { role, govt_id, gst, address, phone, owner_name, wallet_address } =
+      req.body;
+    if (!role || !address || !phone || !owner_name || !wallet_address)
+      return new ApiResponse(400, "Missing required fields");
+    if (role === "BUYER" || role === "SELLER")
+      return new ApiResponse(400, "Invalid role");
+
+    await prisma.user.update({
+      where: { uid: req.user.uid },
+      data: { role, govt_id, gst, address, phone, owner_name, wallet_address },
+    });
+    return res.send(new ApiResponse(200, "User Updated"));
+  } catch (error: any) {
+    console.warn(error);
+    return res.send(new ApiResponse(500, error.message));
+  }
+}
 export async function deleteUser(req: IRequest, res: Response): Promise<any> {
   try {
     if (!req.user) return new ApiResponse(401, "User not authenticated");
