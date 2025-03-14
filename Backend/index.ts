@@ -6,7 +6,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3300;
 
-import indexRoutes from "./src/routes/index.routes";
+import indexRoutes from "./src/routes/index.route";
 
 app.use(morgan("dev"));
 app.use(express.json());

@@ -13,7 +13,7 @@ export async function authUser(req: IRequest, res: Response): Promise<any> {
     });
     if (!userRecord) return new ApiResponse(401, "User not found");
 
-    return new ApiResponse(200, "User Authenticated");
+    return new ApiResponse(200, "User Authenticated", userRecord);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }

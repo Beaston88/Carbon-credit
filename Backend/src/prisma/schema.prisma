@@ -11,7 +11,7 @@ datasource db {
 model user {
   id             String  @id @default(uuid())
   uid            String  @unique
-  role           role // BUYER, SELLER, GOVT
+  role           role
   govt_id        String? @unique
   gst            String? @unique
   address        String?
@@ -19,8 +19,12 @@ model user {
   owner_name     String?
   wallet_address String?
 
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+
   transactionsSent     transactions[] @relation("SentTransactions")
   transactionsReceived transactions[] @relation("ReceivedTransactions")
+  listings             marketplace[]  @relation("SellerListings")
 }
 
 enum role {
@@ -29,7 +33,6 @@ enum role {
   GOVT
 }
 
-// - blockchain
 model transactions {
   id          String   @id @default(uuid())
   status      String // ACTIVE, SUCCESS, FAILED
@@ -38,7 +41,20 @@ model transactions {
   validator   String
   credits     Int
   createdAt   DateTime @default(now())
+  updateAt    DateTime @updatedAt
 
   sender   user @relation("SentTransactions", fields: [sender_id], references: [id])
   receiver user @relation("ReceivedTransactions", fields: [receiver_id], references: [id])
+}
+
+model marketplace {
+  id        String   @id @default(uuid())
+  seller_id String
+  credits   Int
+  price     Float
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+
+  seller user @relation("SellerListings", fields: [seller_id], references: [id])
 }
