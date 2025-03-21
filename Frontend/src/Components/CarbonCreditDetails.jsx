@@ -34,7 +34,7 @@ function CreditDetails() {
           <div className="flex gap-5 max-md:flex-col">
             <div className="w-[39%] max-md:w-full">
               <img
-                src={carbonCredit.image} // ✅ Display updated image
+                src={carbonCredit.image} 
                 alt="Carbon Credit"
                 className="object-contain grow w-full aspect-[1.1]"
               />
@@ -50,23 +50,23 @@ function CreditDetails() {
           </div>
         </div>
 
-        {/* ✅ Buttons to Open Modals */}
+        
         <div className="flex gap-5 justify-between mt-6 max-w-full text-2xl font-medium text-black w-[396px]">
           <button
-            onClick={() => setShowRemoveModal(true)} // ✅ Open Remove Modal
+            onClick={() => setShowRemoveModal(true)} 
             className="px-6 pt-3 pb-4 rounded-3xl bg-zinc-300 hover:bg-red-400 transition-colors"
           >
             Remove
           </button>
           <button
-            onClick={() => setShowModifyModal(true)} // ✅ Open Modify Modal
+            onClick={() => setShowModifyModal(true)} 
             className="px-8 pt-3 pb-4 rounded-3xl bg-zinc-300 hover:bg-blue-400 transition-colors"
           >
             Modify
           </button>
         </div>
 
-        {/* ✅ Display QR Code, Credit ID, and Transaction ID */}
+        
         <div className="flex gap-6 mt-6 ml-8 text-2xl font-medium text-white max-md:mt-4 max-md:ml-2.5">
           <img
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/93db1a2074461203af6e0ca93ba22b7494e3a63621e87543375c0a5d0dc38402"
