@@ -4,7 +4,7 @@ import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import Dashboard from "./Pages/Dashboard";
 import CarbonCreditDashboard from "./components/CarbonCreditDashboard";
-import ShoppingCart from "./pages/ShoppingCart";
+import ShoppingCart from "./Pages/ShoppingCart";
 
 const App = () => {
   return (
