@@ -4,6 +4,7 @@ import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import Dashboard from "./Pages/Dashboard";
 import CarbonCreditDashboard from "./components/CarbonCreditDashboard";
+import ShoppingCart from "./pages/ShoppingCart";
 
 const App = () => {
   return (
@@ -12,7 +13,8 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/carbon-credits" element={<CarbonCreditDashboard />} />
+        <Route path="/pool" element={<CarbonCreditDashboard />} />
+        <Route path="/cart" element={<ShoppingCart />} />
       </Routes>
     </Router>
   );
