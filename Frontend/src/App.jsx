@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import Dashboard from "./Pages/Dashboard";
-import CarbonCreditDashboard from "./components/CarbonCreditDashboard";
+import CarbonCreditDashboard from "./Pages/CarbonCreditDashboard";
 import ShoppingCart from "./Pages/ShoppingCart";
 
 const App = () => {
