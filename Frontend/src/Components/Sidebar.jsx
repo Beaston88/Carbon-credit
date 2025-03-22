@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   FiMonitor,
   FiHome,
@@ -39,36 +40,36 @@ const Sidebar = () => {
         </button>
 
         <nav className="space-y-4">
-          <a
-            href="#"
+          <Link
+            to="/dashboard"
             className="flex items-center gap-3 text-lg hover:text-gray-300"
           >
             <FiMonitor /> Dashboard
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            to="/pool"
             className="flex items-center gap-3 text-lg hover:text-gray-300"
           >
             <FiHome /> Pool
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            to="/cart"
             className="flex items-center gap-3 text-lg hover:text-gray-300"
           >
-            <FiShoppingCart /> Transaction
-          </a>
-          <a
-            href="#"
+            <FiShoppingCart /> Cart
+          </Link>
+          <Link
+            to="#"
             className="flex items-center gap-3 text-lg hover:text-gray-300"
           >
-            <FiCreditCard /> Credits
-          </a>
-          <a
-            href="#"
+            <FiCreditCard /> Transaction
+          </Link>
+          <Link
+            to="#"
             className="flex items-center gap-3 text-lg hover:text-gray-300"
           >
             <FiSettings /> Accounts
-          </a>
+          </Link>
         </nav>
 
         <button className="flex items-center gap-3 text-lg hover:text-gray-300">
