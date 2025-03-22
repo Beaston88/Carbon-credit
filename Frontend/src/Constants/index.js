@@ -35,5 +35,37 @@ export const pendingVerifications = [
     details: "1 of 2, Virtual meeting",
     time: "2:00-5:30",
   },
+];
 
+export const projects = [
+  {
+    id: 1,
+    name: "Project A",
+    description:
+      "Description of Project A with detailed carbon credit metrics.",
+  },
+  {
+    id: 2,
+    name: "Project B",
+    description:
+      "Description of Project B with detailed carbon credit metrics.",
+  },
+  {
+    id: 3,
+    name: "Project C",
+    description:
+      "Description of Project C with detailed carbon credit metrics.",
+  },
+  {
+    id: 4,
+    name: "Project D",
+    description:
+      "Description of Project B with detailed carbon credit metrics.",
+  },
+  {
+    id: 5,
+    name: "Project E",
+    description:
+      "Description of Project C with detailed carbon credit metrics.",
+  },
 ];
