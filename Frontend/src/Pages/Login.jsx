@@ -1,14 +1,23 @@
-import React from "react";
+import React, {useState} from "react";
 import backgroundImage from "../assets/image1.png";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleLogin = () => {
-    /////
-    navigate("/dashboard");
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/dashboard");
+    } catch (err) {
+      setError("Invalid email or password");
+    }
   };
 
   return (
@@ -25,11 +34,16 @@ const Login = () => {
             CARBON CREDITS <br /> MARKETPLACE
           </h2>
 
-          <form className="space-y-4">
+          {error && <p className="text-red-500 text-center">{error}</p>}
+
+          <form className="space-y-4" onSubmit={handleLogin}>
             <div className="relative">
               <input
                 type="email"
                 placeholder="Enter email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
                 className="w-full px-4 py-3 pl-10 border border-black rounded-4xl focus:ring focus:ring-green-300"
               />
               <span className="absolute left-3 top-3 text-gray-500">✉️</span>
@@ -39,6 +53,9 @@ const Login = () => {
               <input
                 type="password"
                 placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
                 className="w-full px-4 py-3 pl-10 border border-black rounded-4xl focus:ring focus:ring-green-300"
               />
               <span className="absolute left-3 top-3 text-gray-500">🔒</span>
