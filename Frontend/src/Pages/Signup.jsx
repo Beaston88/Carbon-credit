@@ -1,11 +1,49 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import backgroundImage from "../assets/image1.png";
+import { app } from "../firebaseConfig";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 const Signup = () => {
   const navigate = useNavigate();
   const [businessSector, setBusinessSector] = useState("");
   const [otherSector, setOtherSector] = useState("");
+  const auth = getAuth(app);
+
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    password: "",
+    companyName: "",
+    businessSector: "",
+    otherSector: "",
+    registrationNumber: "",
+    address: "",
+    gstin: "",
+  });
+
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   return (
     <div
@@ -16,6 +54,8 @@ const Signup = () => {
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Create an Account
         </h2>
+
+        {error && <p className="text-red-600 text-center">{error}</p>}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* left */}
@@ -28,32 +68,48 @@ const Signup = () => {
                 <label className="block text-gray-700">Full Name</label>
                 <input
                   type="text"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleChange}
                   className="w-full p-2 border rounded focus:ring focus:ring-indigo-300"
                   placeholder="John Doe"
+                  required
                 />
               </div>
               <div>
                 <label className="block text-gray-700">Email</label>
                 <input
                   type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   className="w-full p-2 border rounded focus:ring focus:ring-indigo-300"
                   placeholder="email@example.com"
+                  required
                 />
               </div>
               <div>
                 <label className="block text-gray-700">Phone Number</label>
                 <input
                   type="text"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
                   className="w-full p-2 border rounded focus:ring focus:ring-indigo-300"
                   placeholder="+1234567890"
+                  required
                 />
               </div>
               <div>
                 <label className="block text-gray-700">Password</label>
                 <input
                   type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
                   className="w-full p-2 border rounded focus:ring focus:ring-indigo-300"
                   placeholder="Set Password"
+                  required
                 />
               </div>
               <div>
@@ -83,6 +139,9 @@ const Signup = () => {
                 <label className="block text-gray-700">Company Name</label>
                 <input
                   type="text"
+                  name="companyName"
+                  value={formData.companyName}
+                  onChange={handleChange}
                   className="w-full p-2 border rounded focus:ring focus:ring-indigo-300"
                   placeholder="Your Company"
                 />
@@ -90,9 +149,10 @@ const Signup = () => {
               <div>
                 <label className="block text-gray-700">Business Sector</label>
                 <select
+                  name="businessSector"
+                  value={formData.businessSector}
+                  onChange={handleChange}
                   className="w-full p-2 border rounded focus:ring focus:ring-indigo-300"
-                  value={businessSector}
-                  onChange={(e) => setBusinessSector(e.target.value)}
                 >
                   <option value="">Select</option>
                   <option value="Energy">Energy</option>
@@ -102,17 +162,18 @@ const Signup = () => {
                 </select>
               </div>
 
-              {businessSector === "Other" && (
+              {formData.businessSector === "Other" && (
                 <div>
                   <label className="block text-gray-700">
                     Specify Business Sector
                   </label>
                   <input
                     type="text"
+                    name="otherSector"
+                    value={formData.otherSector}
+                    onChange={handleChange}
                     className="w-full p-2 border rounded focus:ring focus:ring-indigo-300"
                     placeholder="Enter your business sector"
-                    value={otherSector}
-                    onChange={(e) => setOtherSector(e.target.value)}
                   />
                 </div>
               )}
@@ -123,6 +184,9 @@ const Signup = () => {
                 </label>
                 <input
                   type="text"
+                  name="registrationNumber"
+                  value={formData.registrationNumber}
+                  onChange={handleChange}
                   className="w-full p-2 border rounded focus:ring focus:ring-indigo-300"
                   placeholder="123456789"
                 />
@@ -131,6 +195,9 @@ const Signup = () => {
                 <label className="block text-gray-700">Country & Address</label>
                 <input
                   type="text"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
                   className="w-full p-2 border rounded focus:ring focus:ring-indigo-300"
                   placeholder="City, Country"
                 />
@@ -141,6 +208,9 @@ const Signup = () => {
                 </label>
                 <input
                   type="text"
+                  name="gstin"
+                  value={formData.gstin}
+                  onChange={handleChange}
                   className="w-full p-2 border rounded focus:ring focus:ring-indigo-300"
                   placeholder="GSTIN123456789"
                 />
@@ -163,23 +233,25 @@ const Signup = () => {
             </label>
           </div>
         </div>
-        <div className="flex justify-center items-center mt-6">
-          <button
-            className="w-2/3 bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
-            onClick={() => navigate("/dashboard")}
-          >
-            Sign Up
-          </button>
-        </div>
-        <div className="text-center text-gray-700 mt-4">
-          Already have an account?{" "}
-          <button
-            onClick={() => navigate("/login")}
-            className="text-green-700 font-medium hover:underline"
-          >
-            Login
-          </button>
-        </div>
+        <form onSubmit={handleSignup}>
+          <div className="flex justify-center items-center mt-6">
+            <button
+              type="submit"
+              className="w-2/3 bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
+            >
+              Sign Up
+            </button>
+          </div>
+          <div className="text-center text-gray-700 mt-4">
+            Already have an account?{" "}
+            <button
+              onClick={() => navigate("/login")}
+              className="text-green-700 font-medium hover:underline"
+            >
+              Login
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

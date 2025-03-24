@@ -1,9 +1,13 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import backgroundImage from "../assets/image1.png";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { app } from "../firebaseConfig";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const Login = () => {
+  let auth = getAuth(app);
+
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
