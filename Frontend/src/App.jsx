@@ -7,6 +7,7 @@ import Dashboard from "./Pages/Dashboard";
 import CarbonCreditDashboard from "./Pages/Pool";
 import ShoppingCart from "./Pages/ShoppingCart";
 import GovtDashboard from "./Pages/GovtDashboard";
+import AddCreditPage from "./Pages/AddCreditPage";
 const App = () => {
   return (
     <Router>
@@ -17,7 +18,8 @@ const App = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/pool" element={<CarbonCreditDashboard />} />
         <Route path="/cart" element={<ShoppingCart />} />
-        <Route path="/govtdashboard" element={<GovtDashboard />} />
+        <Route path="/govtDashboard" element={<GovtDashboard />} />
+        <Route path="/AddCreditPage" element={<AddCreditPage />} />
       </Routes>
     </Router>
   );
