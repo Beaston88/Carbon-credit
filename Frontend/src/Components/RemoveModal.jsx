@@ -7,9 +7,20 @@ function RemoveModal() {
   const {
     showRemoveModal,
     setShowRemoveModal,
-    confirmRemoveCredit,
     carbonCredit,
+    isVerificationSent,
+    removeCredit, 
   } = useAppContext();
+
+  
+  const handleRemove = () => {
+    if (carbonCredit && carbonCredit.id) {
+      removeCredit(carbonCredit.id);
+    }
+  };
+
+  
+  if (!showRemoveModal) return null;
 
   return (
     <Modal
@@ -18,27 +29,31 @@ function RemoveModal() {
       title="Confirm Removal"
     >
       <div className="text-center">
-        <p className="mb-6 text-lg">
+        <p className="mb-6 text-lg text-gray-700">
           Are you sure you want to remove the carbon credit for{" "}
-          {carbonCredit.name}?
-          <br />
-          <span className="text-gray-600 text-sm">
-            Credit ID: {carbonCredit.id}
-          </span>
+          <strong>{carbonCredit?.name || "this item"}</strong>?
         </p>
 
         <div className="flex justify-center gap-4">
+          
           <button
             onClick={() => setShowRemoveModal(false)}
-            className="px-6 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors"
+            className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
           >
             Cancel
           </button>
+
+          
           <button
-            onClick={confirmRemoveCredit}
-            className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+            onClick={handleRemove}
+            disabled={isVerificationSent}
+            className={`px-6 py-2 ${
+              isVerificationSent
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-red-500 hover:bg-red-600 text-white"
+            } rounded-lg transition`}
           >
-            Remove
+            {isVerificationSent ? "❌ Disabled" : "Remove"}
           </button>
         </div>
       </div>

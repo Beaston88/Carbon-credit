@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "./Modal";
 import { useAppContext } from "./AppContext";
 
@@ -11,13 +11,27 @@ function ModifyModal() {
     carbonCredit,
   } = useAppContext();
 
+ 
   const [formData, setFormData] = useState({
-    name: carbonCredit.name,
-    area: carbonCredit.area,
-    age: carbonCredit.age,
-    oxygenAmount: carbonCredit.oxygenAmount,
+    name: "",
+    area: "",
+    age: "",
+    oxygenAmount: "",
   });
 
+  
+  useEffect(() => {
+    if (carbonCredit) {
+      setFormData({
+        name: carbonCredit.name,
+        area: carbonCredit.area,
+        age: carbonCredit.age,
+        oxygenAmount: carbonCredit.oxygenAmount,
+      });
+    }
+  }, [carbonCredit]);
+
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -26,10 +40,14 @@ function ModifyModal() {
     }));
   };
 
+ 
   const handleSubmit = (e) => {
     e.preventDefault();
     saveModifiedCredit(formData);
   };
+
+  
+  if (!showModifyModal) return null;
 
   return (
     <Modal
@@ -38,6 +56,7 @@ function ModifyModal() {
       title="Modify Carbon Credit"
     >
       <form onSubmit={handleSubmit}>
+        
         <div className="mb-4">
           <label
             htmlFor="name"
@@ -56,6 +75,7 @@ function ModifyModal() {
           />
         </div>
 
+        
         <div className="mb-4">
           <label
             htmlFor="area"
@@ -74,6 +94,7 @@ function ModifyModal() {
           />
         </div>
 
+        
         <div className="mb-4">
           <label
             htmlFor="age"
@@ -92,12 +113,13 @@ function ModifyModal() {
           />
         </div>
 
+        
         <div className="mb-6">
           <label
             htmlFor="oxygenAmount"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            Amount of O2
+            Amount of O₂
           </label>
           <input
             type="text"
@@ -110,6 +132,7 @@ function ModifyModal() {
           />
         </div>
 
+        
         <div className="flex justify-end gap-4">
           <button
             type="button"

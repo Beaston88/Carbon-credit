@@ -8,7 +8,7 @@ function CartOptions() {
       </h2>
 
       <div className="flex flex-col gap-6 mt-6 max-sm:gap-4">
-        {/* Personal Message */}
+        
         <div>
           <label className="block text-lg font-medium text-gray-800 max-md:text-base max-sm:text-sm">
             Personal Message:
@@ -19,7 +19,7 @@ function CartOptions() {
           />
         </div>
 
-        {/* Newsletter Subscription */}
+       
         <div className="flex items-center gap-3 max-sm:gap-2">
           <input
             type="checkbox"
@@ -34,7 +34,7 @@ function CartOptions() {
           </label>
         </div>
 
-        {/* ✅ Modern & Better Checkout Button */}
+        
         <button
           className="w-full py-3 text-lg font-semibold text-white bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-md hover:from-blue-600 hover:to-blue-700 transform hover:scale-105 transition duration-300 ease-in-out max-sm:text-sm"
         >
