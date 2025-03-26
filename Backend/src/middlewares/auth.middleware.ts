@@ -17,14 +17,13 @@ export const verifyToken = async (
     let token: string;
     if (process.env.ACCESS_TOKEN_DISABLED === "true") next();
     else {
+      const admin = req.headers.admin;
+      if (admin && admin === process.env.ADMIN_TOKEN) req.isAdmin = true;
+
       if (!req.headers.authorization)
         return res.send(new ApiResponse(401, "Unauthorized"));
       token = req.headers.authorization.split(" ")[1];
       req.token = token;
-      if (token === process.env.ADMIN_TOKEN) {
-        req.isAdmin = true;
-        return next();
-      }
       const user: DecodedIdToken = await firebaseAuth.verifyIdToken(token);
       const userData = await prisma.user.findUnique({
         where: { uid: user.uid },
