@@ -13,9 +13,7 @@ export async function getDailyImpact(
     const userId = req.user.id;
     const date = req.query.date as string;
 
-    if (!date) {
-      return res.send(new ApiResponse(400, "Date is required"));
-    }
+    if (!date) return res.send(new ApiResponse(400, "Date is required"));
 
     const startDate = new Date(date);
     if (isNaN(startDate.getTime())) {
@@ -45,7 +43,7 @@ export async function getDailyImpact(
 
     return res.send(new ApiResponse(200, "Daily Impact Data", { impact }));
   } catch (error: any) {
-    return res.status(500).json({ message: error.message });
+    return res.send(new ApiResponse(500, error.message));
   }
 }
 
@@ -93,6 +91,6 @@ export async function getTransactionGraph(
       new ApiResponse(200, "Transaction Graph Data", { graphData })
     );
   } catch (error: any) {
-    return res.status(500).json({ message: error.message });
+    return res.send(new ApiResponse(500, error.message));
   }
 }

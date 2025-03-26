@@ -48,13 +48,16 @@ model transactions {
 }
 
 model marketplace {
-  id        String   @id @default(uuid())
-  seller_id String
-  credits   Int
-  price     Float
-  verified  Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  id          String   @id @default(uuid())
+  seller_id   String
+  credits     Int
+  price       Float
+  name        String
+  description String
+  image       String
+  verified    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updateAt    DateTime @updatedAt
 
   seller user @relation("SellerListings", fields: [seller_id], references: [id])
 }

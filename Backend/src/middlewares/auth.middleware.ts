@@ -28,8 +28,12 @@ export const verifyToken = async (
       const userData = await prisma.user.findUnique({
         where: { uid: user.uid },
       });
-      if (user && userData) {
-        req.user = { ...user, role: userData.role };
+      if (user) {
+        req.user = {
+          ...user,
+          role: userData?.role || "BUYER",
+          id: userData?.id,
+        };
         req.token = token;
         next();
       } else return res.send(new ApiResponse(401, "Unauthorised"));

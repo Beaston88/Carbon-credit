@@ -13,7 +13,6 @@ export const verifyAdmin = async (
     if (req.isAdmin) return next();
     return res.send(new ApiResponse(403, "Forbidden"));
   } catch (error: any) {
-    console.warn(error);
     return res.send(new ApiResponse(500, "Internal Server Error"));
   }
 };
@@ -25,10 +24,9 @@ export const verifySeller = async (
 ): Promise<any> => {
   try {
     if (req.user && req.user.role === "SELLER") return next();
-    return new ApiResponse(403, "Forbidden");
+    return res.send(new ApiResponse(403, "Forbidden"));
   } catch (error: any) {
-    console.warn(error);
-    return new ApiResponse(500, "Internal Server Error");
+    return res.send(new ApiResponse(500, "Internal Server Error"));
   }
 };
 
@@ -39,10 +37,9 @@ export const verifyBuyer = async (
 ): Promise<any> => {
   try {
     if (req.user && req.user.role === "BUYER") return next();
-    return new ApiResponse(403, "Forbidden");
+    return res.send(new ApiResponse(403, "Forbidden"));
   } catch (error: any) {
-    console.warn(error);
-    return new ApiResponse(500, "Internal Server Error");
+    return res.send(new ApiResponse(500, "Internal Server Error"));
   }
 };
 
@@ -53,9 +50,8 @@ export const verifyGovt = async (
 ): Promise<any> => {
   try {
     if (req.user && req.user.role === "GOVT") return next();
-    return new ApiResponse(403, "Forbidden");
+    return res.send(new ApiResponse(403, "Forbidden"));
   } catch (error: any) {
-    console.warn(error);
-    return new ApiResponse(500, "Internal Server Error");
+    return res.send(new ApiResponse(500, "Internal Server Error"));
   }
 };

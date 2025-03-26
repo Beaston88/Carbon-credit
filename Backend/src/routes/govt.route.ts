@@ -7,9 +7,9 @@ import {
 const router = express.Router();
 
 // government verifies a credit listing for a seller
-router.post("/government/verify/:listingId", verifyGovt, verifyCreditListing);
+router.post("/verify/:listingId", verifyGovt, verifyCreditListing);
 
 // get all verified credit listings
-router.get("/government/verified-listings", getVerifiedListings);
+router.get("/verified-listings", getVerifiedListings);
 
 export default router;
