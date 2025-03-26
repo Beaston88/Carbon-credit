@@ -9,6 +9,7 @@ import {
   FiLogOut,
   FiX,
   FiMenu,
+  FiPlusCircle,
 } from "react-icons/fi";
 
 const Sidebar = () => {
@@ -69,6 +70,12 @@ const Sidebar = () => {
             className="flex items-center gap-3 text-lg hover:text-gray-300"
           >
             <FiSettings /> Accounts
+          </Link>
+          <Link
+            to="/AddCreditPage"
+            className="flex items-center gap-3 text-lg hover:text-gray-300"
+          >
+            <FiPlusCircle /> Add Credit
           </Link>
         </nav>
 
