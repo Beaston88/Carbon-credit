@@ -28,9 +28,9 @@ function CartItem({ id, imageSrc, title, price, removeFromCart }) {
           <div className="flex flex-wrap gap-5 justify-between w-full max-sm:flex-col max-sm:gap-3">
             <h3 className="self-start text-3xl font-semibold max-sm:text-xl">{title}</h3>
 
-            {/* ✅ Updated Quantity Section */}
+            
             <div className="flex items-center gap-4 max-sm:gap-2">
-              {/* Decrease Button */}
+              
               <button
                 onClick={decreaseQuantity}
                 className="w-10 h-10 text-xl font-semibold text-gray-700 border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-200 transition max-sm:w-8 max-sm:h-8 max-sm:text-lg"
@@ -39,7 +39,7 @@ function CartItem({ id, imageSrc, title, price, removeFromCart }) {
                 <FiMinus />
               </button>
               
-              {/* Quantity Box */}
+              
               <div
                 className="w-16 h-10 flex items-center justify-center border border-gray-300 rounded-lg text-xl text-gray-700 max-sm:w-12 max-sm:h-8 max-sm:text-lg bg-gray-100"
                 aria-label="Quantity"
@@ -47,7 +47,7 @@ function CartItem({ id, imageSrc, title, price, removeFromCart }) {
                 {quantity}
               </div>
               
-              {/* Increase Button */}
+              
               <button
                 onClick={increaseQuantity}
                 className="w-10 h-10 text-xl font-semibold text-gray-700 border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-200 transition max-sm:w-8 max-sm:h-8 max-sm:text-lg"
@@ -58,7 +58,7 @@ function CartItem({ id, imageSrc, title, price, removeFromCart }) {
             </div>
           </div>
 
-          {/* Price Section */}
+          
           <div className="mt-4 flex items-center justify-between max-sm:flex-col max-sm:items-start">
             <span className="text-gray-500 text-lg max-sm:text-sm">Total Price:</span>
             <span className="text-2xl font-bold text-gray-800 max-sm:text-lg">
@@ -66,7 +66,7 @@ function CartItem({ id, imageSrc, title, price, removeFromCart }) {
             </span>
           </div>
 
-          {/* Remove Button */}
+          
           <button
             onClick={() => removeFromCart(id)}
             className="mt-4 flex items-center gap-2 text-gray-600 hover:text-red-500 transition text-sm font-semibold"

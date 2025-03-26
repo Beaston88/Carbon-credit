@@ -8,8 +8,11 @@ import CarbonCreditDashboard from "./Pages/Pool";
 import ShoppingCart from "./Pages/ShoppingCart";
 import GovtDashboard from "./Pages/GovtDashboard";
 import AddCreditPage from "./Pages/AddCreditPage";
+import { AppProvider } from "./components/AppContext";
+
 const App = () => {
   return (
+    <AppProvider>
     <Router>
       <Routes>
         <Route path="/home" element={<Home />} />
@@ -22,6 +25,7 @@ const App = () => {
         <Route path="/AddCreditPage" element={<AddCreditPage />} />
       </Routes>
     </Router>
+    </AppProvider>
   );
 };
 

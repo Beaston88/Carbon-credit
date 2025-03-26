@@ -7,20 +7,22 @@ function RemoveModal() {
   const {
     showRemoveModal,
     setShowRemoveModal,
-    carbonCredit,
+    carbonCredits, // <-- Using array
+    selectedCreditId, // <-- New state to get the selected credit ID
+    removeCredit,
     isVerificationSent,
-    removeCredit, 
   } = useAppContext();
 
-  
+  const selectedCredit = carbonCredits.find((credit) => credit.id === selectedCreditId);
+
   const handleRemove = () => {
-    if (carbonCredit && carbonCredit.id) {
-      removeCredit(carbonCredit.id);
+    if (selectedCredit && selectedCredit.id) {
+      removeCredit(selectedCredit.id); // <-- Remove using the selected credit
+      setShowRemoveModal(false);
     }
   };
 
-  
-  if (!showRemoveModal) return null;
+  if (!showRemoveModal || !selectedCredit) return null;
 
   return (
     <Modal
@@ -31,11 +33,10 @@ function RemoveModal() {
       <div className="text-center">
         <p className="mb-6 text-lg text-gray-700">
           Are you sure you want to remove the carbon credit for{" "}
-          <strong>{carbonCredit?.name || "this item"}</strong>?
+          <strong>{selectedCredit?.name || "this item"}</strong>?
         </p>
 
         <div className="flex justify-center gap-4">
-          
           <button
             onClick={() => setShowRemoveModal(false)}
             className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
@@ -43,7 +44,6 @@ function RemoveModal() {
             Cancel
           </button>
 
-          
           <button
             onClick={handleRemove}
             disabled={isVerificationSent}

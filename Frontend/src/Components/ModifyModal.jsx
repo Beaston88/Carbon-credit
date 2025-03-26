@@ -8,10 +8,12 @@ function ModifyModal() {
     showModifyModal,
     setShowModifyModal,
     saveModifiedCredit,
-    carbonCredit,
+    carbonCredits, // <-- Updated to use the array
+    selectedCreditId, // <-- New state to get the selected credit ID
   } = useAppContext();
 
- 
+  const selectedCredit = carbonCredits.find((credit) => credit.id === selectedCreditId);
+
   const [formData, setFormData] = useState({
     name: "",
     area: "",
@@ -19,19 +21,17 @@ function ModifyModal() {
     oxygenAmount: "",
   });
 
-  
   useEffect(() => {
-    if (carbonCredit) {
+    if (selectedCredit) {
       setFormData({
-        name: carbonCredit.name,
-        area: carbonCredit.area,
-        age: carbonCredit.age,
-        oxygenAmount: carbonCredit.oxygenAmount,
+        name: selectedCredit.name,
+        area: selectedCredit.area,
+        age: selectedCredit.age,
+        oxygenAmount: selectedCredit.oxygenAmount,
       });
     }
-  }, [carbonCredit]);
+  }, [selectedCredit]);
 
- 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -40,14 +40,13 @@ function ModifyModal() {
     }));
   };
 
- 
   const handleSubmit = (e) => {
     e.preventDefault();
-    saveModifiedCredit(formData);
+    saveModifiedCredit({ ...selectedCredit, ...formData }); // <-- Save modified credit
+    setShowModifyModal(false);
   };
 
-  
-  if (!showModifyModal) return null;
+  if (!showModifyModal || !selectedCredit) return null;
 
   return (
     <Modal
@@ -56,12 +55,8 @@ function ModifyModal() {
       title="Modify Carbon Credit"
     >
       <form onSubmit={handleSubmit}>
-        
         <div className="mb-4">
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
             Name
           </label>
           <input
@@ -75,12 +70,8 @@ function ModifyModal() {
           />
         </div>
 
-        
         <div className="mb-4">
-          <label
-            htmlFor="area"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
+          <label htmlFor="area" className="block text-sm font-medium text-gray-700 mb-1">
             Area
           </label>
           <input
@@ -94,12 +85,8 @@ function ModifyModal() {
           />
         </div>
 
-        
         <div className="mb-4">
-          <label
-            htmlFor="age"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
+          <label htmlFor="age" className="block text-sm font-medium text-gray-700 mb-1">
             Age
           </label>
           <input
@@ -113,7 +100,6 @@ function ModifyModal() {
           />
         </div>
 
-        
         <div className="mb-6">
           <label
             htmlFor="oxygenAmount"
@@ -132,7 +118,6 @@ function ModifyModal() {
           />
         </div>
 
-        
         <div className="flex justify-end gap-4">
           <button
             type="button"
