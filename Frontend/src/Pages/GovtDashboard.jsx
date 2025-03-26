@@ -1,7 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import { projects } from "../Constants/index.js";
+import { apiURL } from "../Constants/index.js";
+import axios from "axios";
 
 const GovtDashboard = () => {
+  // const [projects, setProjects] = useState([]);
+
+  // const fetchProjects = async () => {
+  //   const response = await axios.get(apiURL + "/marketplace?verified=false", {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`, // firebase trokn
+  //     },
+  //   });
+  // };
+
+  // useEffect -> lagake on page load de dena
+
+  const handleVerify = async (id) => {
+    const response = await axios.post(
+      apiURL + "/government/verify/" + id,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // firebase token
+        },
+      }
+    );
+  };
+
+  const getVerified = async () => {
+    const response = await axios.get(apiURL + "/government/verified-listings", {
+      headers: {
+        Authorization: `Bearer ${token}`, // firebase token
+      },
+    });
+    const data = await response.data();
+    console.log(data);
+  };
+
   return (
     <div className="h-screen w-screen flex flex-col overflow-y-auto overflow-x-hidden">
       <div className="flex-1 flex flex-col p-6">
@@ -25,7 +61,10 @@ const GovtDashboard = () => {
             placeholder="Transaction Id"
             className="flex-1 px-4 py-2 border rounded bg-gray-200 font-bold"
           />
-          <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+          <button
+            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+            onClick={(id) => handleVerify(id)}
+          >
             Verify
           </button>
         </div>

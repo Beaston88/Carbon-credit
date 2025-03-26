@@ -3,7 +3,14 @@ import backgroundImage from "../assets/image1.png";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { app } from "../firebaseConfig";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { getIdToken } from "firebase/auth";
+import axios from "axios";
+import { apiURL } from "../Constants";
 
 const Login = () => {
   let auth = getAuth(app);
@@ -14,12 +21,38 @@ const Login = () => {
   const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
+    // TODO : validation
     e.preventDefault();
     setError("");
+
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/dashboard");
+      // Sign in with email and password
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      // Get the authenticated user
+      const user = userCredential.user;
+
+      // Get the ID token after login
+      if (user) {
+        const token = await getIdToken(user);
+        console.log("✅ User ID Token:", token); // Print the token to console
+        localStorage.setItem("token", token); // Optional: Store token locally if needed
+      }
+
+      const response = await axios.get(apiURL + "/user", {
+        headers: {
+          Authorization: `Bearer ${token}`, // token from firebase
+        },
+      });
+
+      // Navigate to the dashboard after successful login
+      // navigate("/dashboard");
     } catch (err) {
+      console.log(err);
       setError("Invalid email or password");
     }
   };

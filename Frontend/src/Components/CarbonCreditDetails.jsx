@@ -1,6 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useAppContext } from "./AppContext";
+import { apiURL } from "../Constants/index.js";
+import axios from "axios";
 
 function CreditDetails() {
   const [lastUpdated, setLastUpdated] = useState("");
@@ -13,20 +15,30 @@ function CreditDetails() {
     handleSendToVerification,
   } = useAppContext();
 
-  // ✅ Correctly set the last updated time
-  useEffect(() => {
-    const now = new Date();
-    const formattedDate = now.toLocaleString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: true,
+  // // ✅ Correctly set the last updated time
+  // useEffect(() => {
+  //   const now = new Date();
+  //   const formattedDate = now.toLocaleString("en-US", {
+  //     year: "numeric",
+  //     month: "long",
+  //     day: "2-digit",
+  //     hour: "2-digit",
+  //     minute: "2-digit",
+  //     second: "2-digit",
+  //     hour12: true,
+  //   });
+  //   setLastUpdated(formattedDate);
+  // }, [carbonCredits]); // ✅ Updated to refresh time after credit
+
+  const fetchListing = async () => {
+    const response = await axios.get(apiURL + "/marketplace?verified=true", {
+      headers: {
+        Authorization: `Bearer ${token}`, // firebase token
+      },
     });
-    setLastUpdated(formattedDate);
-  }, [carbonCredits]); // ✅ Updated to refresh time after credit modification
+  };
+
+  // fetch listing ko use effect se connect krna to get is on page load
 
   return (
     <main className="flex flex-col self-stretch px-6 mt-0 max-w-5xl mx-auto max-sm:px-3 max-md:px-4">
@@ -36,7 +48,7 @@ function CreditDetails() {
           Carbon Credit Dashboard
         </h2>
         <p className="mt-1 text-xl text-gray-600 max-md:text-lg max-sm:text-base">
-          Last updated: {lastUpdated}
+          Last updated: {new Date().toUTCString()}
         </p>
       </div>
 
@@ -67,7 +79,9 @@ function CreditDetails() {
                     <h3 className="text-4xl font-semibold max-md:text-3xl max-sm:text-2xl">
                       {carbonCredit.name}
                     </h3>
-                    <p className="mt-2 max-md:mt-1">Area: {carbonCredit.area}</p>
+                    <p className="mt-2 max-md:mt-1">
+                      Area: {carbonCredit.area}
+                    </p>
                     <p className="mt-2 max-md:mt-1">Age: {carbonCredit.age}</p>
                     <p className="mt-2 max-md:mt-1">
                       Amount of O₂: {carbonCredit.oxygenAmount}
@@ -119,7 +133,9 @@ function CreditDetails() {
                   }`}
                   disabled={isVerificationSent}
                 >
-                  {isVerificationSent ? "✔️ Verification Sent" : "Send to Verification"}
+                  {isVerificationSent
+                    ? "✔️ Verification Sent"
+                    : "Send to Verification"}
                 </button>
               </div>
             </section>

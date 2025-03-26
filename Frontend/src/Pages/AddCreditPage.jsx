@@ -8,12 +8,14 @@ function AddCreditPageContent() {
 
   const [formData, setFormData] = useState({
     name: "",
-    area: "",
-    age: "",
-    oxygenAmount: "",
+    description: "",
+    price: "",
+    credit: "",
     image:
       "https://cdn.builder.io/api/v1/image/assets/TEMP/5fbd3bc12cb2d9bb2fc89244890b64f7b7988aa0b609244191ac7f1c0c9aa942",
   });
+
+  // implement axios post
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,8 +31,12 @@ function AddCreditPageContent() {
     // Create a new credit with a unique ID and transaction ID
     const newCredit = {
       ...formData,
-      id: `${Math.floor(Math.random() * 1000)}-${Math.floor(Math.random() * 1000)}`,
-      transactionId: `SK${Math.floor(Math.random() * 100)}-${Math.floor(Math.random() * 100)}`,
+      id: `${Math.floor(Math.random() * 1000)}-${Math.floor(
+        Math.random() * 1000
+      )}`,
+      transactionId: `SK${Math.floor(Math.random() * 100)}-${Math.floor(
+        Math.random() * 100
+      )}`,
     };
 
     // If context has saveNewCredit function, use it
@@ -38,7 +44,10 @@ function AddCreditPageContent() {
       context.saveNewCredit(newCredit);
       console.log("Credit saved successfully:", newCredit);
     } else {
-      console.log("Context or saveNewCredit function not available, logging data instead:", newCredit);
+      console.log(
+        "Context or saveNewCredit function not available, logging data instead:",
+        newCredit
+      );
     }
 
     // Redirect to the pool page
@@ -50,7 +59,10 @@ function AddCreditPageContent() {
       <h1 className="text-3xl font-bold mb-6">Add New Carbon Credit</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label htmlFor="new-name" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="new-name"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Name
           </label>
           <input
@@ -66,7 +78,10 @@ function AddCreditPageContent() {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="new-area" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="new-area"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Area
           </label>
           <input
@@ -82,7 +97,10 @@ function AddCreditPageContent() {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="new-age" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="new-age"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Age
           </label>
           <input
