@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import backgroundImage from "../assets/image1.png";
 import { app } from "../firebaseConfig";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import axios from "axios";
+import { apiURL } from "../Constants";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -11,16 +13,17 @@ const Signup = () => {
   const auth = getAuth(app);
 
   const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    password: "",
+    ownerName: "", //
+    email: "", //
+    phone: "", //
+    password: "", //
     companyName: "",
     businessSector: "",
     otherSector: "",
-    registrationNumber: "",
-    address: "",
-    gstin: "",
+    walletAddress: "", //
+    address: "", //
+    gst: "", //
+    role: "", //
   });
 
   const [error, setError] = useState("");
@@ -30,16 +33,37 @@ const Signup = () => {
   };
 
   const handleSignup = async (e) => {
+    // TODO : add valdiation
     e.preventDefault();
     setError("");
-
     try {
       await createUserWithEmailAndPassword(
         auth,
         formData.email,
         formData.password
       );
-      navigate("/dashboard");
+
+      const response = await axios.post(
+        apiURL + "/user",
+        {
+          role,
+          gst,
+          address,
+          phone,
+          owner_name: formData.ownerName,
+          wallet_address: formData.walletAddress,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Firebase token
+          },
+        }
+      );
+
+      const data = await response.data();
+      console.log(data);
+
+      // navigate("/dashboard");
     } catch (err) {
       setError(err.message);
     }
@@ -65,11 +89,11 @@ const Signup = () => {
             </h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-gray-700">Full Name</label>
+                <label className="block text-gray-700">Owner Name</label>
                 <input
                   type="text"
-                  name="fullName"
-                  value={formData.fullName}
+                  name="ownerName"
+                  value={formData.ownerName}
                   onChange={handleChange}
                   className="w-full p-2 border rounded focus:ring focus:ring-indigo-300"
                   placeholder="John Doe"
@@ -112,16 +136,24 @@ const Signup = () => {
                   required
                 />
               </div>
-              <div>
+              {/* <div>
                 <label className="block text-gray-700">Government ID</label>
                 <input
                   type="file"
                   className="w-full p-2 border rounded bg-white"
                 />
-              </div>
+              </div> */}
               <div>
                 <label className="block text-gray-700">Preferred Role</label>
-                <select className="w-full p-2 border rounded focus:ring focus:ring-indigo-300">
+                <select
+                  className="w-full p-2 border rounded focus:ring focus:ring-indigo-300"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      role: e.target.value.toUpperCase(),
+                    })
+                  }
+                >
                   <option>Buyer</option>
                   <option>Seller</option>
                 </select>
@@ -179,13 +211,11 @@ const Signup = () => {
               )}
 
               <div>
-                <label className="block text-gray-700">
-                  Company Registration Number
-                </label>
+                <label className="block text-gray-700">Wallet Address</label>
                 <input
                   type="text"
-                  name="registrationNumber"
-                  value={formData.registrationNumber}
+                  name="walletAddress"
+                  value={formData.walletAddress}
                   onChange={handleChange}
                   className="w-full p-2 border rounded focus:ring focus:ring-indigo-300"
                   placeholder="123456789"
@@ -208,8 +238,8 @@ const Signup = () => {
                 </label>
                 <input
                   type="text"
-                  name="gstin"
-                  value={formData.gstin}
+                  name="gst"
+                  value={formData.gst}
                   onChange={handleChange}
                   className="w-full p-2 border rounded focus:ring focus:ring-indigo-300"
                   placeholder="GSTIN123456789"

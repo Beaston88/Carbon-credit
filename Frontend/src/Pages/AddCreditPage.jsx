@@ -8,12 +8,14 @@ function AddCreditPageContent() {
 
   const [formData, setFormData] = useState({
     name: "",
-    area: "",
-    age: "",
-    oxygenAmount: "",
+    description: "",
+    price: "",
+    credit: "",
     image:
       "https://cdn.builder.io/api/v1/image/assets/TEMP/5fbd3bc12cb2d9bb2fc89244890b64f7b7988aa0b609244191ac7f1c0c9aa942",
   });
+
+  // implement axios post
 
   const handleChange = (e) => {
     const { name, value } = e.target;
