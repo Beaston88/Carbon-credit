@@ -1,4 +1,4 @@
-export const apiURL = "https://right-keen-antelope.ngrok-free.app/";
+export const apiURL = "https://right-keen-antelope.ngrok-free.app";
 import axios from "axios";
 
 /**

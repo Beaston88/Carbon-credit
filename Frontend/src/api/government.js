@@ -20,7 +20,7 @@ export const verifyListing = async (token, listingId) => {
 /**
  * Get all verified marketplace listings
  * @param {string} token - Authentication token
- * @param {Object} options - Optional query parameters
+ * @param {boolean} isVerified - Verified Parameter
  * @returns {Promise<Array>} - List of verified listings
  */
 export const getVerifiedListings = async (token, isVerified) => {

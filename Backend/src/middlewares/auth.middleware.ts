@@ -14,6 +14,7 @@ export const verifyToken = async (
   next: NextFunction
 ): Promise<any> => {
   try {
+    console.log(req.header);
     let token: string;
     if (process.env.ACCESS_TOKEN_DISABLED === "true") next();
     else {
