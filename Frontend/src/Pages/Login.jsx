@@ -31,7 +31,6 @@ const Login = () => {
     }
 
     try {
-      // Sign in with email and password
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
@@ -43,10 +42,20 @@ const Login = () => {
       // Get the ID token
       const token = await getIdToken(user);
       const response = await getUser(token);
-      console.log("User data:", response.data);
-      navigate("/dashboard");
+
+      if (!response?.data?.role) throw new Error("Invalid user data");
+      const role = response.data.role;
+      if (role === "BUYER") {
+        navigate("/cart");
+      } else if (role === "SELLER") {
+        navigate("/dashboard");
+      } else if (role === "GOVT") {
+        navigate("/govtDashboard");
+      } else {
+        throw new Error("Unauthorized role");
+      }
     } catch (err) {
-      if (err.message == "Firebase: Error (auth/invalid-credential).") {
+      if (err.message.includes("auth/invalid-credential")) {
         alert("User doesn't exist, please sign up");
         navigate("/signup");
       } else {
@@ -64,14 +73,6 @@ const Login = () => {
         backgroundSize: "100vw 70vh",
       }}
     >
-      <div className="absolute top-5 right-5">
-        <button
-          onClick={() => navigate("/GovtLogin")}
-          className="bg-green-600 text-white px-3 py-3 font-bold rounded-lg hover:bg-green-700 transition"
-        >
-          Government Login
-        </button>
-      </div>
       <div className="flex justify-center items-start min-h-screen pt-30">
         <div className="p-8 rounded-xl w-full max-w-md bg-opacity-90">
           <h2 className="text-2xl font-extrabold text-center mb-10 text-gray-800 tracking-wider">

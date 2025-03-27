@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import backgroundImage from "../assets/image1.png";
 import { app } from "../firebaseConfig";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-// import axios from "axios";
-// import { apiURL } from "../Constants";
+import { createUser } from "../api/user.js";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -33,63 +32,50 @@ const Signup = () => {
   };
 
   const handleSignup = async (e) => {
-    // Form validation
     e.preventDefault();
     setError("");
 
-    // Basic validation
-    if (!formData.email || !formData.password || !formData.ownerName || !formData.phone) {
+    if (
+      !formData.email ||
+      !formData.password ||
+      !formData.ownerName ||
+      !formData.phone
+    ) {
       setError("Please fill in all required fields");
       return;
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setError("Please enter a valid email address");
       return;
     }
 
-    // Password validation (at least 6 characters)
     if (formData.password.length < 6) {
       setError("Password must be at least 6 characters long");
       return;
     }
 
     try {
-      // Create user in Firebase
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         formData.email,
         formData.password
       );
 
-      // Get the token from the user credential
       const token = await userCredential.user.getIdToken();
 
-      // Send user data to backend
-      // const response = await axios.post(
-      //   apiURL + "/user",
-      //   {
-      //     role: formData.role,
-      //     gst: formData.gst,
-      //     address: formData.address,
-      //     phone: formData.phone,
-      //     owner_name: formData.ownerName,
-      //     wallet_address: formData.walletAddress,
-      //   },
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   }
-      // );
+      const userData = {
+        role: formData.role,
+        gst: formData.gst,
+        address: formData.address,
+        phone: formData.phone,
+        owner_name: formData.ownerName,
+        wallet_address: formData.walletAddress,
+      };
 
-      // const data = response.data;
-      // console.log(data);
-
-      // Navigate to dashboard after successful signup
-      navigate("/dashboard");
+      await createUser(token, userData);
+      navigate("/login");
     } catch (err) {
       console.error("Signup error:", err);
       setError(err.message || "An error occurred during signup");
@@ -163,13 +149,7 @@ const Signup = () => {
                   required
                 />
               </div>
-              {/* <div>
-                <label className="block text-gray-700">Government ID</label>
-                <input
-                  type="file"
-                  className="w-full p-2 border rounded bg-white"
-                />
-              </div> */}
+
               <div>
                 <label className="block text-gray-700">Preferred Role</label>
                 <select
