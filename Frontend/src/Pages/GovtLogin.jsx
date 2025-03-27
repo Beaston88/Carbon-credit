@@ -3,56 +3,38 @@ import backgroundImage from "../assets/image1.png";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { app } from "../firebaseConfig";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-} from "firebase/auth";
-import { getIdToken } from "firebase/auth";
-import { getUser } from "../api/user";
-// import axios from "axios";
-// import { apiURL } from "../Constants";
+import { getAuth, signInWithEmailAndPassword, getIdToken } from "firebase/auth";
+// import { govtLogin } from "../api/government";
+// import { getUser } from "../api/user";
 
-const Login = () => {
+const GovtLogin = () => {
   let auth = getAuth(app);
-
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [governmentId, setGovernmentId] = useState("");
   const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
 
-    if (!email || !password) {
-      setError("Email and password are required");
+    if (!email || !password || !governmentId) {
+      setError("All fields are required");
       return;
     }
 
     try {
-      // Sign in with email and password
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-      if (!user) throw new Error("User authentication failed");
+      // Call government login API
+      const response = await govtLogin(email, password, governmentId);
 
-      // Get the ID token
-      const token = await getIdToken(user);
-      const response = await getUser(token);
-      console.log("User data:", response.data);
-      navigate("/dashboard");
+      // Store token (optional, based on your auth flow)
+      localStorage.setItem("govt_token", response.token);
+
+      console.log("Government User Data:", response);
+      navigate("/GovtDashboard");
     } catch (err) {
-      if (err.message == "Firebase: Error (auth/invalid-credential).") {
-        alert("User doesn't exist, please sign up");
-        navigate("/signup");
-      } else {
-        console.error("Login error:", err);
-        setError(err.message || "Failed to log in");
-      }
+      setError("Invalid credentials or authentication failed");
     }
   };
 
@@ -64,18 +46,10 @@ const Login = () => {
         backgroundSize: "100vw 70vh",
       }}
     >
-      <div className="absolute top-5 right-5">
-        <button
-          onClick={() => navigate("/GovtLogin")}
-          className="bg-green-600 text-white px-3 py-3 font-bold rounded-lg hover:bg-green-700 transition"
-        >
-          Government Login
-        </button>
-      </div>
       <div className="flex justify-center items-start min-h-screen pt-30">
         <div className="p-8 rounded-xl w-full max-w-md bg-opacity-90">
           <h2 className="text-2xl font-extrabold text-center mb-10 text-gray-800 tracking-wider">
-            CARBON CREDITS <br /> MARKETPLACE
+            GOVERNMENT LOGIN
           </h2>
 
           {error && <p className="text-red-500 text-center">{error}</p>}
@@ -105,23 +79,32 @@ const Login = () => {
               <span className="absolute left-3 top-3 text-gray-500">🔒</span>
             </div>
 
-            <div className="text-xl flex justify-between text-gray-600">
-              <a href="#" className="hover:underline">
-                Forgot Password?
-              </a>
-              <Link to="/signup" className="hover:underline font-medium">
-                Sign up
-              </Link>
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Government ID"
+                value={governmentId}
+                onChange={(e) => setGovernmentId(e.target.value)}
+                required
+                className="w-full px-4 py-3 pl-10 border border-black rounded-4xl focus:ring focus:ring-green-300"
+              />
+              <span className="absolute left-3 top-3 text-gray-500">🆔</span>
             </div>
 
             <button className="w-full bg-green-600 text-white py-3 font-bold rounded-lg hover:bg-green-700 transition">
               Login
             </button>
           </form>
+
+          <div className="text-lg text-center text-gray-600 mt-4">
+            <Link to="/login" className="text-gray-600 hover:underline">
+              Back to User Login
+            </Link>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default GovtLogin;

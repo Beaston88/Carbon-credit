@@ -82,26 +82,16 @@ const GovtDashboard = () => {
             <div key={project.id} className="bg-gray-200 p-4 rounded-lg shadow">
               <h3 className="font-bold">{project.name}</h3>
               <p className="text-sm text-gray-700">{project.description}</p>
-              <button className="mt-4 w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-                View Details
-              </button>
+              <div className="mt-4 flex gap-2">
+                <button className="w-5/7 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                  View Details
+                </button>
+                <button className="w-2/7 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                  Verify
+                </button>
+              </div>
             </div>
           ))}
-        </div>
-
-        <h2 className="text-xl font-bold mt-12">Transaction Verification</h2>
-        <div className="flex gap-4 mt-5">
-          <input
-            type="text"
-            placeholder="Transaction Id"
-            className="flex-1 px-4 py-2 border rounded bg-gray-200 font-bold"
-          />
-          <button
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-            onClick={(id) => handleVerify(id)}
-          >
-            Verify
-          </button>
         </div>
 
         <h2 className="text-xl font-bold mt-12">Administrative Tasks</h2>
