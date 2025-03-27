@@ -1,16 +1,20 @@
 import express, { Request, Response } from "express";
 import morgan from "morgan";
 import dotenv from "dotenv";
+import cors from "cors";
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3200;
+const corsConfig = {
+  origin: "*",
+};
 
 import indexRoutes from "./src/routes/index.route";
-import { ApiResponse } from "./src/utils/RequestHandler";
 
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(cors(corsConfig));
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/", indexRoutes);

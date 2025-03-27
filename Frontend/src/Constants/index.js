@@ -69,5 +69,3 @@ export const projects = [
       "Description of Project C with detailed carbon credit metrics.",
   },
 ];
-
-export const apiURL = "https://right-keen-antelope.ngrok-free.app/";
