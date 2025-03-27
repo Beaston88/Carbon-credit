@@ -6,10 +6,11 @@ import {
   updateUser,
 } from "../controllers/user.controller";
 import { verifyAdmin } from "../middlewares/uac.middleware";
+import { verifyToken } from "../middlewares/auth.middleware";
 const router = express.Router();
 
 // check if the user exists in the database
-router.get("/:id", authUser);
+router.get("/", authUser);
 
 // create a new user
 router.post("/", createUser);

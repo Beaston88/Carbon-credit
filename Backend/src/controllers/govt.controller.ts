@@ -25,7 +25,7 @@ export async function verifyCreditListing(
       new ApiResponse(200, "Credit Listing Verified", updatedListing)
     );
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    res.send(new ApiResponse(500, error.message));
   }
 }
 
@@ -38,12 +38,10 @@ export async function getVerifiedListings(
       where: { verified: true },
     });
 
-    return new ApiResponse(
-      200,
-      "Verified Listings Retrieved",
-      verifiedListings
+    return res.send(
+      new ApiResponse(200, "Verified Listings Retrieved", verifiedListings)
     );
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    res.send(new ApiResponse(500, error.message));
   }
 }

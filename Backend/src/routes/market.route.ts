@@ -5,23 +5,27 @@ import {
   deleteCreditListing,
   getAllListings,
   getCreditListingById,
+  getMyListings,
   updateCreditListing,
 } from "../controllers/market.controller";
 const router = express.Router();
 
 // create a new credit listing by seller
-router.post("/marketplace", verifySeller, createCreditListing);
+router.post("/", verifySeller, createCreditListing);
 
 // get all credit listings (only verified or all)
-router.get("/marketplace", getAllListings);
+router.get("/", getAllListings);
 
 // get a specific credit listing by ID
-router.get("/marketplace/:id", getCreditListingById);
+router.get("/:id", getCreditListingById);
+
+// get all listing of seller
+router.get("/me", getMyListings);
 
 // update a credit listing (only by seller)
-router.put("/marketplace/:id", verifySeller, updateCreditListing);
+router.put("/:id", verifySeller, updateCreditListing);
 
 // delete a credit listing (only by seller)
-router.delete("/marketplace/:id", verifySeller, deleteCreditListing);
+router.delete("/:id", verifySeller, deleteCreditListing);
 
 export default router;

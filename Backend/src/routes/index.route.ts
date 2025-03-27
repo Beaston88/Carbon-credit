@@ -9,8 +9,8 @@ import transactionRoutes from "./transaction.route";
 import { verifyToken } from "../middlewares/auth.middleware";
 
 router.use("/user", verifyToken, userRoutes);
-router.use("/govt", verifyToken, govtRoutes);
-router.use("/market", verifyToken, marketRoutes);
+router.use("/government", verifyToken, govtRoutes);
+router.use("/marketplace", verifyToken, marketRoutes);
 router.use("/tracking", verifyToken, trackingRoutes);
 router.use("/transaction", verifyToken, transactionRoutes);
 
