@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { projects } from "../Constants/index.js";
-import { apiURL } from "../Constants/index.js";
+// import { apiURL } from "../Constants/index.js";
 import axios from "axios";
 import { getAuth } from "firebase/auth";
 
@@ -26,30 +26,30 @@ const GovtDashboard = () => {
     throw new Error("User not authenticated");
   };
 
-  const fetchProjects = async () => {
-    try {
-      // setLoading(true);
-      const token = await getFirebaseToken();
-      const response = await axios.get(apiURL + "/marketplace?verified=false", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(response.data);
-      // setProjects(response.data);
-    } catch (err) {
-      console.error("Error fetching projects:", err);
-      setError("Failed to load projects");
-      // Use mock data as fallback
-      // setProjects(mockProjects);
-    } finally {
-      // setLoading(false);
-    }
-  };
+  // const fetchProjects = async () => {
+  //   try {
+  //     // setLoading(true);
+  //     const token = await getFirebaseToken();
+  //     const response = await axios.get(apiURL + "/marketplace?verified=false", {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     console.log(response.data);
+  //     // setProjects(response.data);
+  //   } catch (err) {
+  //     console.error("Error fetching projects:", err);
+  //     setError("Failed to load projects");
+  //     // Use mock data as fallback
+  //     // setProjects(mockProjects);
+  //   } finally {
+  //     // setLoading(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchProjects();
-  }, []);
+  // useEffect(() => {
+  //   fetchProjects();
+  // }, []);
 
   const handleVerify = async (id) => {
     const response = await axios.post(

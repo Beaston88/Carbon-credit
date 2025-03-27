@@ -9,8 +9,9 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { getIdToken } from "firebase/auth";
-import axios from "axios";
-import { apiURL } from "../Constants";
+import { getUser } from "../api/user";
+// import axios from "axios";
+// import { apiURL } from "../Constants";
 
 const Login = () => {
   let auth = getAuth(app);
@@ -21,9 +22,13 @@ const Login = () => {
   const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
-    // TODO : validation
     e.preventDefault();
     setError("");
+
+    if (!email || !password) {
+      setError("Email and password are required");
+      return;
+    }
 
     try {
       // Sign in with email and password
@@ -32,27 +37,22 @@ const Login = () => {
         email,
         password
       );
-
-      // Get the authenticated user
       const user = userCredential.user;
+      if (!user) throw new Error("User authentication failed");
 
-      // Get the ID token after login
-      if (user) {
-        const token = await getIdToken(user);
-        console.log("✅ User ID Token:", token); // Print the token to console
-        localStorage.setItem("token", token); // Optional: Store token locally if needed
-
-        const response = await axios.get(apiURL + "/user", {
-          headers: {
-            Authorization: `Bearer ${token}`, // token from firebase
-          },
-        });
-        console.log("User data:", response.data);
-        navigate("/dashboard");
-      }
+      // Get the ID token
+      const token = await getIdToken(user);
+      const response = await getUser(token);
+      console.log("User data:", response.data);
+      navigate("/dashboard");
     } catch (err) {
-      console.log(err);
-      setError("Invalid email or password");
+      if (err.message == "Firebase: Error (auth/invalid-credential).") {
+        alert("User doesn't exist, please sign up");
+        navigate("/signup");
+      } else {
+        console.error("Login error:", err);
+        setError(err.message || "Failed to log in");
+      }
     }
   };
 

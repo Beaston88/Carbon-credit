@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useAppContext } from "./AppContext.jsx";
-import { apiURL } from "../Constants/index.js";
+// import { apiURL } from "../Constants/index.js";
 import axios from "axios";
 
 function CreditDetails() {
@@ -30,13 +30,13 @@ function CreditDetails() {
   //   setLastUpdated(formattedDate);
   // }, [carbonCredits]); // ✅ Updated to refresh time after credit
 
-  const fetchListing = async () => {
-    const response = await axios.get(apiURL + "/marketplace?verified=true", {
-      headers: {
-        Authorization: `Bearer ${token}`, // firebase token
-      },
-    });
-  };
+  // const fetchListing = async () => {
+  //   const response = await axios.get(apiURL + "/marketplace?verified=true", {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`, // firebase token
+  //     },
+  //   });
+  // };
 
   // fetch listing ko use effect se connect krna to get is on page load
 

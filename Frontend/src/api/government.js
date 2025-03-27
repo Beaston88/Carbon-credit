@@ -23,22 +23,12 @@ export const verifyListing = async (token, listingId) => {
  * @param {Object} options - Optional query parameters
  * @returns {Promise<Array>} - List of verified listings
  */
-export const getVerifiedListings = async (token, options = {}) => {
+export const getVerifiedListings = async (token, isVerified) => {
   try {
     const apiClient = createApiClient(token);
-
-    // Build query string from options
-    const queryParams = new URLSearchParams();
-    Object.entries(options).forEach(([key, value]) => {
-      queryParams.append(key, value);
-    });
-
-    const queryString = queryParams.toString();
-    const url = queryString
-      ? `/government/verified-listings?${queryString}`
-      : "/government/verified-listings";
-
-    return await apiClient.get(url);
+    return await apiClient.get(
+      `/government/verified-listings?verified=${isVerified}`
+    );
   } catch (error) {
     console.error("Error fetching verified listings:", error);
     throw error;

@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import backgroundImage from "../assets/image1.png";
 import { app } from "../firebaseConfig";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import axios from "axios";
-import { apiURL } from "../Constants";
+// import axios from "axios";
+// import { apiURL } from "../Constants";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -68,25 +68,25 @@ const Signup = () => {
       const token = await userCredential.user.getIdToken();
 
       // Send user data to backend
-      const response = await axios.post(
-        apiURL + "/user",
-        {
-          role: formData.role,
-          gst: formData.gst,
-          address: formData.address,
-          phone: formData.phone,
-          owner_name: formData.ownerName,
-          wallet_address: formData.walletAddress,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      // const response = await axios.post(
+      //   apiURL + "/user",
+      //   {
+      //     role: formData.role,
+      //     gst: formData.gst,
+      //     address: formData.address,
+      //     phone: formData.phone,
+      //     owner_name: formData.ownerName,
+      //     wallet_address: formData.walletAddress,
+      //   },
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   }
+      // );
 
-      const data = response.data;
-      console.log(data);
+      // const data = response.data;
+      // console.log(data);
 
       // Navigate to dashboard after successful signup
       navigate("/dashboard");
