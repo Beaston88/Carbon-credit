@@ -77,13 +77,6 @@ function AddCreditPage() {
 
     try {
       const credits = calculateCredits();
-      const itemData = {
-        name: `${userGST} - ${sector}`,
-        description: JSON.stringify(formData),
-        image: imageLink || "https://placeholder.com/350x350",
-        credits: credits.toFixed(2),
-        price: "10",
-      };
 
       const auth = getAuth();
       return new Promise((resolve, reject) => {
@@ -100,6 +93,18 @@ function AddCreditPage() {
                 if (!token) {
                   throw new Error("No authentication token available");
                 }
+
+                // Fetch user data
+                const userData = await getUser(token);
+
+                const itemData = {
+                  // Now using the GST from userData
+                  name: `${userData.data.gst} - ${sector}`,
+                  description: JSON.stringify(formData),
+                  image: imageLink || "https://placeholder.com/350x350",
+                  credits: credits.toFixed(2),
+                  price: "10",
+                };
 
                 const createdItem = await createMarketplaceItem(
                   token,
