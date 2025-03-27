@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useAppContext } from "./AppContext";
+import { useAppContext } from "./AppContext.jsx";
 import { apiURL } from "../Constants/index.js";
 import axios from "axios";
 
