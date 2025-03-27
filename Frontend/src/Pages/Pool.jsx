@@ -1,9 +1,9 @@
 import React from "react";
 import Sidebar from "../Components/Sidebar";
 import Header from "../Components/Header";
-import CarbonCreditDetails from "../components/CarbonCreditDetails";
-import RemoveModal from "../components/RemoveModal";
-import ModifyModal from "../components/ModifyModal";
+import CarbonCreditDetails from "../Components/CarbonCreditDetails";
+import RemoveModal from "../Components/RemoveModal";
+import ModifyModal from "../Components/ModifyModal";
 
 function CarbonCreditDashboard() {
   return (

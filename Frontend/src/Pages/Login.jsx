@@ -41,16 +41,15 @@ const Login = () => {
         const token = await getIdToken(user);
         console.log("✅ User ID Token:", token); // Print the token to console
         localStorage.setItem("token", token); // Optional: Store token locally if needed
+
+        const response = await axios.get(apiURL + "/user", {
+          headers: {
+            Authorization: `Bearer ${token}`, // token from firebase
+          },
+        });
+        console.log("User data:", response.data);
+        navigate("/dashboard");
       }
-
-      const response = await axios.get(apiURL + "/user", {
-        headers: {
-          Authorization: `Bearer ${token}`, // token from firebase
-        },
-      });
-
-      // Navigate to the dashboard after successful login
-      // navigate("/dashboard");
     } catch (err) {
       console.log(err);
       setError("Invalid email or password");

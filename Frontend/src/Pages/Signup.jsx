@@ -33,39 +33,66 @@ const Signup = () => {
   };
 
   const handleSignup = async (e) => {
-    // TODO : add valdiation
+    // Form validation
     e.preventDefault();
     setError("");
+
+    // Basic validation
+    if (!formData.email || !formData.password || !formData.ownerName || !formData.phone) {
+      setError("Please fill in all required fields");
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    // Password validation (at least 6 characters)
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      return;
+    }
+
     try {
-      await createUserWithEmailAndPassword(
+      // Create user in Firebase
+      const userCredential = await createUserWithEmailAndPassword(
         auth,
         formData.email,
         formData.password
       );
 
+      // Get the token from the user credential
+      const token = await userCredential.user.getIdToken();
+
+      // Send user data to backend
       const response = await axios.post(
         apiURL + "/user",
         {
-          role,
-          gst,
-          address,
-          phone,
+          role: formData.role,
+          gst: formData.gst,
+          address: formData.address,
+          phone: formData.phone,
           owner_name: formData.ownerName,
           wallet_address: formData.walletAddress,
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Firebase token
+            Authorization: `Bearer ${token}`,
           },
         }
       );
 
-      const data = await response.data();
+      const data = response.data;
       console.log(data);
 
-      // navigate("/dashboard");
+      // Navigate to dashboard after successful signup
+      navigate("/dashboard");
     } catch (err) {
-      setError(err.message);
+      console.error("Signup error:", err);
+      setError(err.message || "An error occurred during signup");
     }
   };
 

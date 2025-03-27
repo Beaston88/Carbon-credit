@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import CartItem from "../Components/CartItem";
-import CartOptions from "../components/CartOptions";
+import CartOptions from "../Components/CartOptions";
 import Header from "../Components/Header";
 import Sidebar from "../Components/Sidebar";
 
