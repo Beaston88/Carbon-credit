@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useAppContext } from "./AppContext.jsx";
 // import { apiURL } from "../Constants/index.js";
-import axios from "axios";
+// import axios from "axios";
 
 function CreditDetails() {
   const [lastUpdated, setLastUpdated] = useState("");
@@ -10,39 +10,14 @@ function CreditDetails() {
     carbonCredits,
     setShowRemoveModal,
     setShowModifyModal,
-    setSelectedCreditId, // ✅ To set the selected credit ID
+    setSelectedCreditId,
     isVerificationSent,
     handleSendToVerification,
   } = useAppContext();
 
-  // // ✅ Correctly set the last updated time
-  // useEffect(() => {
-  //   const now = new Date();
-  //   const formattedDate = now.toLocaleString("en-US", {
-  //     year: "numeric",
-  //     month: "long",
-  //     day: "2-digit",
-  //     hour: "2-digit",
-  //     minute: "2-digit",
-  //     second: "2-digit",
-  //     hour12: true,
-  //   });
-  //   setLastUpdated(formattedDate);
-  // }, [carbonCredits]); // ✅ Updated to refresh time after credit
-
-  // const fetchListing = async () => {
-  //   const response = await axios.get(apiURL + "/marketplace?verified=true", {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`, // firebase token
-  //     },
-  //   });
-  // };
-
-  // fetch listing ko use effect se connect krna to get is on page load
 
   return (
     <main className="flex flex-col self-stretch px-6 mt-0 max-w-5xl mx-auto max-sm:px-3 max-md:px-4">
-      {/* ✅ Display Heading and Last Updated Time Only Once */}
       <div className="text-center mt-6">
         <h2 className="text-3xl font-bold text-black max-md:text-2xl max-sm:text-xl">
           Carbon Credit Dashboard
@@ -52,14 +27,12 @@ function CreditDetails() {
         </p>
       </div>
 
-      {/* ✅ Show message if no credits are available */}
       {carbonCredits.length === 0 ? (
         <div className="text-center text-lg text-red-500 mt-6">
           ❗ No carbon credits available. Add some to get started.
         </div>
       ) : (
         <>
-          {/* ✅ Loop through carbonCredits to display each credit */}
           {carbonCredits.map((carbonCredit) => (
             <section
               key={carbonCredit.id}
@@ -107,7 +80,6 @@ function CreditDetails() {
                   Modify
                 </button>
 
-                {/* ✅ Remove Button */}
                 <button
                   onClick={() => {
                     setSelectedCreditId(carbonCredit.id);
@@ -123,7 +95,6 @@ function CreditDetails() {
                   Remove
                 </button>
 
-                {/* ✅ Send to Verification Button */}
                 <button
                   onClick={handleSendToVerification}
                   className={`px-6 py-3 rounded-lg text-white transition-colors text-xl font-medium w-2/5 max-md:w-full max-sm:text-base ${

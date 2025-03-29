@@ -87,18 +87,15 @@ function AddCreditPage() {
 
             if (user) {
               try {
-                // Get the token
                 const token = await getIdToken(user);
 
                 if (!token) {
                   throw new Error("No authentication token available");
                 }
 
-                // Fetch user data
                 const userData = await getUser(token);
 
                 const itemData = {
-                  // Now using the GST from userData
                   name: `${userData.data.gst} - ${sector}`,
                   description: JSON.stringify(formData),
                   image: imageLink || "https://placeholder.com/350x350",

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { apiURL, createApiClient } from ".";
 
 /**
@@ -27,7 +26,7 @@ export const getVerifiedListings = async (token, isVerified) => {
   try {
     const apiClient = createApiClient(token);
     return await apiClient.get(
-      `/government/verified-listings?verified=${isVerified}`
+      `/government/verified-listings?isVerified=${isVerified}`
     );
   } catch (error) {
     console.error("Error fetching verified listings:", error);
