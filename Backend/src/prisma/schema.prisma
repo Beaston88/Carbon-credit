@@ -20,7 +20,7 @@ model user {
   wallet_address String?
 
   createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 
   transactionsSent     transactions[] @relation("SentTransactions")
   transactionsReceived transactions[] @relation("ReceivedTransactions")
@@ -34,30 +34,36 @@ enum role {
 }
 
 model transactions {
-  id          String   @id @default(uuid())
-  status      String // ACTIVE, SUCCESS, FAILED
-  sender_id   String
-  receiver_id String
-  validator   String
-  credits     Int
-  createdAt   DateTime @default(now())
-  updateAt    DateTime @updatedAt
+  id            String   @id @default(uuid())
+  status        String // ACTIVE, SUCCESS, FAILED
+  sender_id     String
+  receiver_id   String
+  validator     String
+  credits       Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  marketplaceId String?
 
-  sender   user @relation("SentTransactions", fields: [sender_id], references: [id])
-  receiver user @relation("ReceivedTransactions", fields: [receiver_id], references: [id])
+  sender      user         @relation("SentTransactions", fields: [sender_id], references: [id])
+  receiver    user         @relation("ReceivedTransactions", fields: [receiver_id], references: [id])
+  marketplace marketplace? @relation(fields: [marketplaceId], references: [id])
 }
 
 model marketplace {
-  id          String   @id @default(uuid())
+  id          String  @id @default(uuid())
   seller_id   String
-  credits     Int
+  credits     Float // Total credits in the listing (unchanged)
+  available   Float // Remaining available credits
   price       Float
   name        String
   description String
   image       String
-  verified    Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updateAt    DateTime @updatedAt
+  verified    Boolean @default(false)
+  status      String  @default("ACTIVE") // ACTIVE, INACTIVE (sold out)
 
-  seller user @relation("SellerListings", fields: [seller_id], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  seller       user           @relation("SellerListings", fields: [seller_id], references: [id])
+  transactions transactions[]
 }

@@ -34,12 +34,17 @@ export async function getVerifiedListings(
   res: Response
 ): Promise<any> {
   try {
-    const verifiedListings = await prisma.marketplace.findMany({
-      where: { verified: true },
-    });
+    const { isVerified } = req.query;
+    if (isVerified === undefined)
+      return res.send(
+        new ApiResponse(400, "Verified query parameter is required")
+      );
 
+    const listings = await prisma.marketplace.findMany({
+      where: { verified: isVerified === "true" },
+    });
     return res.send(
-      new ApiResponse(200, "Verified Listings Retrieved", verifiedListings)
+      new ApiResponse(200, "Verified Listings Retrieved", listings)
     );
   } catch (error: any) {
     res.send(new ApiResponse(500, error.message));

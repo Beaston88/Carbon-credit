@@ -10,34 +10,70 @@ export async function createTransaction(
   try {
     if (!req.user) return res.send(new ApiResponse(401, "Unauthorized"));
 
-    const { listingId } = req.body;
+    const { creditsRequired } = req.body;
     const buyerId = req.user.id;
 
-    // Find the credit listing
-    const listing = await prisma.marketplace.findUnique({
-      where: { id: listingId },
-    });
-    if (!listing) return res.send(new ApiResponse(404, "Listing not found"));
-
-    // Check if the user is a buyer
     if (req.user.role !== "BUYER") {
       return res.send(
         new ApiResponse(403, "Only buyers can create transactions")
       );
     }
 
-    // Create the transaction
-    const transaction = await prisma.transactions.create({
-      data: {
-        sender_id: listing.seller_id,
-        receiver_id: buyerId,
-        credits: listing.credits,
-        status: "ACTIVE",
-        validator: "", // To be validated by GOVT
+    let remainingCredits = creditsRequired;
+    let transactions: Awaited<ReturnType<typeof prisma.transactions.create>>[] =
+      [];
+
+    // Fetch oldest available listings with transaction history
+    const listings = await prisma.marketplace.findMany({
+      where: { status: "ACTIVE" },
+      orderBy: { createdAt: "asc" },
+      include: {
+        transactions: {
+          select: {
+            credits: true,
+          },
+        },
       },
     });
 
-    return res.send(new ApiResponse(201, "Transaction Created", transaction));
+    for (const listing of listings) {
+      if (remainingCredits <= 0) break;
+
+      // Calculate already purchased credits
+      const purchasedCredits = listing.transactions.reduce(
+        (sum, txn) => sum + txn.credits,
+        0
+      );
+
+      // Determine available credits
+      const availableCredits = listing.credits - purchasedCredits;
+      if (availableCredits <= 0) continue; // Skip sold-out listings
+
+      const creditsToTransfer = Math.min(availableCredits, remainingCredits);
+
+      // Create transaction
+      const transaction = await prisma.transactions.create({
+        data: {
+          sender_id: listing.seller_id,
+          receiver_id: buyerId,
+          credits: creditsToTransfer,
+          status: "ACTIVE",
+          validator: "",
+          marketplaceId: listing.id,
+        },
+      });
+
+      transactions.push(transaction);
+      remainingCredits -= creditsToTransfer;
+    }
+
+    if (remainingCredits > 0) {
+      return res.send(new ApiResponse(400, "Not enough credits available"));
+    }
+
+    return res.send(
+      new ApiResponse(201, "Transaction(s) Created", transactions)
+    );
   } catch (error: any) {
     res.send(new ApiResponse(500, error.message));
   }

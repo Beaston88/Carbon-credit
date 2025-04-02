@@ -21,8 +21,9 @@ export async function createCreditListing(
     const listing = await prisma.marketplace.create({
       data: {
         seller_id: sellerId,
-        credits: parseInt(credits),
+        credits: parseFloat(credits),
         price: parseFloat(price),
+        available: parseFloat(credits),
         name,
         description,
         image,
@@ -41,13 +42,13 @@ export async function getAllListings(
   res: Response
 ): Promise<any> {
   try {
-    const { verified } = req.query;
-    if (verified === undefined)
+    const { isVerified } = req.query;
+    if (isVerified === undefined)
       return res.send(
         new ApiResponse(400, "Verified query parameter is required")
       );
     const listings = await prisma.marketplace.findMany({
-      where: { verified: verified === "true" },
+      where: { verified: isVerified === "true" },
     });
 
     return res.send(
@@ -119,7 +120,7 @@ export async function updateCreditListing(
     const updatedListing = await prisma.marketplace.update({
       where: { id },
       data: {
-        credits: parseInt(credits),
+        credits: parseFloat(credits),
         price: parseFloat(price),
         name,
         description,
