@@ -27,13 +27,7 @@ export async function createTransaction(
     const listings = await prisma.marketplace.findMany({
       where: { status: "ACTIVE" },
       orderBy: { createdAt: "asc" },
-      include: {
-        transactions: {
-          select: {
-            credits: true,
-          },
-        },
-      },
+      include: { transactions: { select: { credits: true } } },
     });
 
     for (const listing of listings) {

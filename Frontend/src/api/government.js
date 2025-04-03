@@ -1,4 +1,4 @@
-import { apiURL, createApiClient } from ".";
+import { createApiClient } from ".";
 
 /**
  * Verify a marketplace listing (Government only)
