@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FiMonitor,
   FiHome,
@@ -11,12 +11,33 @@ import {
   FiMenu,
   FiPlusCircle,
 } from "react-icons/fi";
+import { getAuth, signOut } from "firebase/auth";
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [role, setRole] = useState(localStorage.getItem("role") || "");
+  const navigate = useNavigate();
+  const auth = getAuth();
+
+  useEffect(() => {
+    const storedRole = localStorage.getItem("role");
+    if (storedRole) {
+      setRole(storedRole.toUpperCase());
+    }
+  }, []);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      localStorage.clear();
+      navigate("/home");
+    } catch (error) {
+      console.error("Sign out error:", error);
+    }
   };
 
   return (
@@ -41,45 +62,69 @@ const Sidebar = () => {
         </button>
 
         <nav className="space-y-4">
-          <Link
-            to="/dashboard"
-            className="flex items-center gap-3 text-lg hover:text-gray-300"
-          >
-            <FiMonitor /> Dashboard
-          </Link>
-          <Link
-            to="/pool"
-            className="flex items-center gap-3 text-lg hover:text-gray-300"
-          >
-            <FiHome /> Pool
-          </Link>
-          <Link
-            to="/cart"
-            className="flex items-center gap-3 text-lg hover:text-gray-300"
-          >
-            <FiShoppingCart /> Cart
-          </Link>
-          <Link
-            to="#"
-            className="flex items-center gap-3 text-lg hover:text-gray-300"
-          >
-            <FiCreditCard /> Transaction
-          </Link>
-          <Link
-            to="#"
-            className="flex items-center gap-3 text-lg hover:text-gray-300"
-          >
-            <FiSettings /> Accounts
-          </Link>
-          <Link
-            to="/AddCreditPage"
-            className="flex items-center gap-3 text-lg hover:text-gray-300"
-          >
-            <FiPlusCircle /> Add Credit
-          </Link>
+          {role === "SELLER" && (
+            <>
+              <Link
+                to="/dashboard"
+                className="flex items-center gap-3 text-lg hover:text-gray-300"
+              >
+                <FiMonitor /> Dashboard
+              </Link>
+              <Link
+                to="/pool"
+                className="flex items-center gap-3 text-lg hover:text-gray-300"
+              >
+                <FiHome /> Pool
+              </Link>
+              <Link
+                to="/AddCreditPage"
+                className="flex items-center gap-3 text-lg hover:text-gray-300"
+              >
+                <FiPlusCircle /> Add Credit
+              </Link>
+              <Link
+                to="/transactions"
+                className="flex items-center gap-3 text-lg hover:text-gray-300"
+              >
+                <FiCreditCard /> Transaction
+              </Link>
+              <Link
+                to="/accounts"
+                className="flex items-center gap-3 text-lg hover:text-gray-300"
+              >
+                <FiSettings /> Accounts
+              </Link>
+            </>
+          )}
+
+          {role === "BUYER" && (
+            <>
+              <Link
+                to="/cart"
+                className="flex items-center gap-3 text-lg hover:text-gray-300"
+              >
+                <FiShoppingCart /> Cart
+              </Link>
+              <Link
+                to="/transactions"
+                className="flex items-center gap-3 text-lg hover:text-gray-300"
+              >
+                <FiCreditCard /> Transaction
+              </Link>
+              <Link
+                to="/accounts"
+                className="flex items-center gap-3 text-lg hover:text-gray-300"
+              >
+                <FiSettings /> Accounts
+              </Link>
+            </>
+          )}
         </nav>
 
-        <button className="flex items-center gap-3 text-lg hover:text-gray-300">
+        <button
+          onClick={handleSignOut}
+          className="flex items-center gap-3 text-lg hover:text-gray-300"
+        >
           <FiLogOut /> Sign out
         </button>
       </aside>
