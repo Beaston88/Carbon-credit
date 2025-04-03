@@ -3,19 +3,11 @@ import backgroundImage from "../assets/image1.png";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { app } from "../firebaseConfig";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-} from "firebase/auth";
-import { getIdToken } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { getUser } from "../api/user";
-// import axios from "axios";
-// import { apiURL } from "../Constants";
 
 const Login = () => {
   let auth = getAuth(app);
-
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,22 +32,22 @@ const Login = () => {
       if (!user) throw new Error("User authentication failed");
 
       // Get the ID token
-      const token = await getIdToken(user);
+      const token = await user.getIdToken();
       const response = await getUser(token);
 
       if (!response?.data?.role) throw new Error("Invalid user data");
-      const role = response.data.role;
-      if (role === "BUYER") {
-        navigate("/cart");
-      } else if (role === "SELLER") {
-        navigate("/dashboard");
-      } else if (role === "GOVT") {
-        navigate("/govtDashboard");
-      } else {
-        throw new Error("Unauthorized role");
-      }
+      const role = response.data.role.toUpperCase();
+
+      // Store role before navigation
+      localStorage.setItem("role", role);
+
+      // Redirect based on role
+      if (role === "BUYER") navigate("/cart");
+      else if (role === "SELLER") navigate("/dashboard");
+      else if (role === "GOVT") navigate("/govtDashboard");
+      else throw new Error("Unauthorized role");
     } catch (err) {
-      if (err.message.includes("auth/invalid-credential")) {
+      if (err.code === "auth/invalid-credential") {
         alert("User doesn't exist, please sign up");
         navigate("/signup");
       } else {

@@ -75,6 +75,7 @@ const Signup = () => {
       };
 
       await createUser(token, userData);
+
       navigate("/login");
     } catch (err) {
       console.error("Signup error:", err);
@@ -154,6 +155,7 @@ const Signup = () => {
                 <label className="block text-gray-700">Preferred Role</label>
                 <select
                   className="w-full p-2 border rounded focus:ring focus:ring-indigo-300"
+                  value={formData.role}
                   onChange={(e) =>
                     setFormData({
                       ...formData,
@@ -161,8 +163,9 @@ const Signup = () => {
                     })
                   }
                 >
-                  <option>Buyer</option>
-                  <option>Seller</option>
+                  <option value="">Select Role</option>
+                  <option value="BUYER">Buyer</option>
+                  <option value="SELLER">Seller</option>
                 </select>
               </div>
             </div>
