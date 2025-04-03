@@ -1,5 +1,5 @@
 npm run dev
 
-Login page: http://localhost:XXXX/
+Front-end: https://carbon-credit-hazel.vercel.app/home
 
-Dashboard: http://localhost:XXXX/dashboard
+Back-end: https://carbon-credit-qi44.onrender.com/
