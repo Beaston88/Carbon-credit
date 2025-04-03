@@ -1,4 +1,4 @@
-export const apiURL = "https://carbon-credit-qi44.onrender.com/";
+export const apiURL = "https://carbon-credit-qi44.onrender.com";
 import axios from "axios";
 
 /**
