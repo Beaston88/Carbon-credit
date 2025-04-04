@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import CartItem from "../Components/CartItem";
 import Header from "../Components/Header";
 import Sidebar from "../Components/Sidebar";
+import CartOptions from "../Components/CartOptions";
 
 function ShoppingCart() {
   const [cartItems, setCartItems] = useState([
@@ -48,6 +49,7 @@ function ShoppingCart() {
               </p>
             )}
           </div>
+          <CartOptions />
         </section>
       </div>
     </main>
