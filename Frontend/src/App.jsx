@@ -15,6 +15,7 @@ import GovtDashboard from "./Pages/GovtDashboard";
 import AddCreditPage from "./Pages/AddCreditPage";
 import { AppProvider } from "./Components/AppContext";
 import { GetToken } from "./Pages/Token";
+import Transaction from "./Pages/Transaction";
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/pool" element={<CarbonCreditDashboard />} />
           <Route path="/cart" element={<ShoppingCart />} />
+          <Route path="/transaction" element={<Transaction />} />
           <Route path="/govtDashboard" element={<GovtDashboard />} />
           <Route path="/AddCreditPage" element={<AddCreditPage />} />
           <Route path="/token" element={<GetToken />} />

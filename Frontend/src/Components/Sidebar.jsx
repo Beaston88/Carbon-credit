@@ -83,7 +83,7 @@ const Sidebar = () => {
                 <FiPlusCircle /> Add Credit
               </Link>
               <Link
-                to="/transactions"
+                to="/transaction"
                 className="flex items-center gap-3 text-lg hover:text-gray-300"
               >
                 <FiCreditCard /> Transaction
@@ -106,7 +106,7 @@ const Sidebar = () => {
                 <FiShoppingCart /> Cart
               </Link>
               <Link
-                to="/transactions"
+                to="/transaction"
                 className="flex items-center gap-3 text-lg hover:text-gray-300"
               >
                 <FiCreditCard /> Transaction

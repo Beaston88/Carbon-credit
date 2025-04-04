@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FiMinus, FiPlus } from "react-icons/fi"; // ✅ Import modern icons
+import { FiMinus, FiPlus } from "react-icons/fi";
 
 function CartItem({ id, imageSrc, title, price, removeFromCart }) {
   const [quantity, setQuantity] = useState(1);
