@@ -2,6 +2,7 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { app } from "../firebaseConfig";
+import { getUser } from "../api/user";
 
 const AppContext = createContext();
 
@@ -62,27 +63,41 @@ export function AppProvider({ children }) {
     setVerificationStatus("✅ New Credit Added Successfully.");
   };
 
-  // ✅ Firebase Auth logic
   const [currentUser, setCurrentUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
   const auth = getAuth(app);
 
+  const [userDetails, setUserDetails] = useState(null);
+
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
       setAuthLoading(false);
+
+      if (user) {
+        try {
+          const token = await user.getIdToken();
+          const res = await getUser(token);
+          setUserDetails(res.data);
+        } catch (error) {
+          console.error("Failed to fetch user details", error);
+          setUserDetails(null);
+        }
+      } else {
+        setUserDetails(null);
+      }
     });
+
     return unsubscribe;
   }, [auth]);
 
   return (
     <AppContext.Provider
       value={{
-        // Firebase auth
         currentUser,
         authLoading,
+        userDetails,
 
-        // Carbon credit logic
         carbonCredits,
         setCarbonCredits,
         selectedCreditId,
