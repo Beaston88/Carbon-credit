@@ -1,10 +1,11 @@
 "use client";
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { app } from "../firebaseConfig";
 
 const AppContext = createContext();
 
 export function AppProvider({ children }) {
-  // ✅ Updated state to handle multiple carbon credits
   const [carbonCredits, setCarbonCredits] = useState([
     {
       id: "063-291",
@@ -23,22 +24,19 @@ export function AppProvider({ children }) {
   const [showAddCreditModal, setShowAddCreditModal] = useState(false);
   const [isVerificationSent, setIsVerificationSent] = useState(false);
   const [verificationStatus, setVerificationStatus] = useState("");
-
-  // ✅ New state to track selected credit ID for modify/remove actions
   const [selectedCreditId, setSelectedCreditId] = useState(null);
 
   const handleSendToVerification = () => {
     setIsVerificationSent(true);
     setVerificationStatus("⌛ Waiting for Government Approval...");
-
     setTimeout(() => {
-      setVerificationStatus("✅ Approved by Government! Verification Complete.");
+      setVerificationStatus(
+        "✅ Approved by Government! Verification Complete."
+      );
     }, 5000);
   };
 
-  // ✅ Remove selected credit by ID
   const removeCredit = (creditId) => {
-    console.log(`Removing credit with ID: ${creditId}`);
     setCarbonCredits((prevCredits) =>
       prevCredits.filter((credit) => credit.id !== creditId)
     );
@@ -46,33 +44,49 @@ export function AppProvider({ children }) {
     setVerificationStatus("❗ Credit Removed Successfully.");
   };
 
-  // ✅ Update the selected credit by ID
   const saveModifiedCredit = (updatedCredit) => {
-    console.log("Saving modified credit:", updatedCredit);
     setCarbonCredits((prevCredits) =>
       prevCredits.map((credit) =>
-        credit.id === updatedCredit.id ? { ...credit, ...updatedCredit } : credit
+        credit.id === updatedCredit.id
+          ? { ...credit, ...updatedCredit }
+          : credit
       )
     );
     setShowModifyModal(false);
     setVerificationStatus("✅ Credit Modified Successfully.");
   };
 
-  // ✅ Add a new credit to the list
   const saveNewCredit = (newCredit) => {
-    console.log("Adding new credit:", newCredit);
     setCarbonCredits((prevCredits) => [...prevCredits, newCredit]);
     setShowAddCreditModal(false);
     setVerificationStatus("✅ New Credit Added Successfully.");
   };
 
+  // ✅ Firebase Auth logic
+  const [currentUser, setCurrentUser] = useState(null);
+  const [authLoading, setAuthLoading] = useState(true);
+  const auth = getAuth(app);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+      setAuthLoading(false);
+    });
+    return unsubscribe;
+  }, [auth]);
+
   return (
     <AppContext.Provider
       value={{
+        // Firebase auth
+        currentUser,
+        authLoading,
+
+        // Carbon credit logic
         carbonCredits,
         setCarbonCredits,
         selectedCreditId,
-        setSelectedCreditId, // Pass selectedCreditId to modals
+        setSelectedCreditId,
         showRemoveModal,
         setShowRemoveModal,
         showModifyModal,
@@ -89,7 +103,7 @@ export function AppProvider({ children }) {
         saveNewCredit,
       }}
     >
-      {children}
+      {!authLoading && children}
     </AppContext.Provider>
   );
 }
