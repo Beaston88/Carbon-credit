@@ -16,23 +16,73 @@ import AddCreditPage from "./Pages/AddCreditPage";
 import { AppProvider } from "./Components/AppContext";
 import { GetToken } from "./Pages/Token";
 import Transaction from "./Pages/Transaction";
+import ProtectedRoute from "./Components/ProtectedRoute";
 
 const App = () => {
   return (
     <AppProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Navigate to="/home" replace />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/pool" element={<CarbonCreditDashboard />} />
-          <Route path="/cart" element={<ShoppingCart />} />
-          <Route path="/transaction" element={<Transaction />} />
-          <Route path="/govtDashboard" element={<GovtDashboard />} />
-          <Route path="/AddCreditPage" element={<AddCreditPage />} />
-          <Route path="/token" element={<GetToken />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/pool"
+            element={
+              <ProtectedRoute>
+                <CarbonCreditDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute>
+                <ShoppingCart />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/transaction"
+            element={
+              <ProtectedRoute>
+                <Transaction />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/govtDashboard"
+            element={
+              <ProtectedRoute>
+                <GovtDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/AddCreditPage"
+            element={
+              <ProtectedRoute>
+                <AddCreditPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/token"
+            element={
+              <ProtectedRoute>
+                <GetToken />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<Home />} />
         </Routes>
       </Router>
     </AppProvider>
