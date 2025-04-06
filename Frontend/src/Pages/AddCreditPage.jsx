@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../Components/Sidebar.jsx";
+import Header from "../Components/Header.jsx";
 import { getUser } from "../api/user.js";
 import { createMarketplaceItem } from "../api/marketplace.js";
 import { getAuth, getIdToken, onAuthStateChanged } from "firebase/auth";
@@ -343,63 +345,69 @@ function AddCreditPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-[50%] max-w-4xl p-8 bg-white shadow-lg rounded-lg">
-        <h1 className="text-3xl font-bold mb-6">Add Credits</h1>
+    <div className="h-screen flex overflow-hidden">
+      <Sidebar />
+      <div className="flex-1 flex flex-col overflow-auto h-full p-4 md:p-8">
+        <Header />
+        <div className="p-4 md:p-8 overflow-auto flex justify-center">
+          <div className="w-[60%] max-w-4xl p-8 bg-white shadow-lg rounded-lg">
+            <h1 className="text-3xl font-bold mb-6">Add Credits</h1>
 
-        <div className="mb-4">
-          <label
-            htmlFor="sector"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Select Sector:
-          </label>
-          <select
-            id="sector"
-            value={sector}
-            onChange={handleSectorChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-lime-500"
-          >
-            <option value="">--Select--</option>
-            <option value="renewable">Renewable Energy</option>
-            <option value="forestry">Forestry</option>
-            <option value="waste">Waste Management</option>
-            <option value="industry">Industry & Manufacturing</option>
-            <option value="transport">Transport</option>
-          </select>
+            <div className="mb-4">
+              <label
+                htmlFor="sector"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Select Sector:
+              </label>
+              <select
+                id="sector"
+                value={sector}
+                onChange={handleSectorChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-lime-500"
+              >
+                <option value="">--Select--</option>
+                <option value="renewable">Renewable Energy</option>
+                <option value="forestry">Forestry</option>
+                <option value="waste">Waste Management</option>
+                <option value="industry">Industry & Manufacturing</option>
+                <option value="transport">Transport</option>
+              </select>
+            </div>
+
+            {renderSectorFields()}
+
+            <button
+              onClick={calculateCredits}
+              className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors mb-4"
+              disabled={!sector}
+            >
+              Calculate Carbon Credits
+            </button>
+
+            <div className="flex justify-end space-x-2">
+              <button
+                onClick={handleCancel}
+                className="px-3 py-1 text-sm bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleAddCredit}
+                className="px-3 py-1 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                disabled={!result}
+              >
+                Add Credit
+              </button>
+            </div>
+
+            {result && (
+              <h3 className="mt-4 text-xl font-semibold text-center text-gray-700">
+                {result}
+              </h3>
+            )}
+          </div>
         </div>
-
-        {renderSectorFields()}
-
-        <button
-          onClick={calculateCredits}
-          className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors mb-4"
-          disabled={!sector}
-        >
-          Calculate Carbon Credits
-        </button>
-
-        <div className="flex justify-end space-x-2">
-          <button
-            onClick={handleCancel}
-            className="px-3 py-1 text-sm bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleAddCredit}
-            className="px-3 py-1 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-            disabled={!result}
-          >
-            Add Credit
-          </button>
-        </div>
-
-        {result && (
-          <h3 className="mt-4 text-xl font-semibold text-center text-gray-700">
-            {result}
-          </h3>
-        )}
       </div>
     </div>
   );
