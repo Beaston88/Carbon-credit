@@ -12,7 +12,7 @@ function ShoppingCart() {
       imageSrc:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/ca661bf625f30eb21c8c7fb7e7c1883938cc7906ee8663ed657e18292a60481b",
       title: "Verified Credits",
-      price: 50,
+      price: 0.01,
     },
   ]);
 

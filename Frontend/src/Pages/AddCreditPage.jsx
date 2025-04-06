@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../Components/Sidebar.jsx";
-import Header from "../Components/Header.jsx";
-import { getUser } from "../api/user.js";
+import { getUser } from "../api/user.js"
 import { createMarketplaceItem } from "../api/marketplace.js";
 import { getAuth, getIdToken, onAuthStateChanged } from "firebase/auth";
+import Sidebar from "../Components/Sidebar.jsx";
+import Header from "../Components/Header.jsx";
 
 function AddCreditPage() {
   const navigate = useNavigate();
@@ -22,6 +22,11 @@ function AddCreditPage() {
   });
   const [result, setResult] = useState("");
   const [userGST, setUserGST] = useState("");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   const handleSectorChange = (e) => {
     setSector(e.target.value);
@@ -345,69 +350,77 @@ function AddCreditPage() {
   };
 
   return (
-    <div className="h-screen flex overflow-hidden">
-      <Sidebar />
-      <div className="flex-1 flex flex-col overflow-auto h-full p-4 md:p-8">
-        <Header />
-        <div className="p-4 md:p-8 overflow-auto flex justify-center">
-          <div className="w-[60%] max-w-4xl p-8 bg-white shadow-lg rounded-lg">
-            <h1 className="text-3xl font-bold mb-6">Add Credits</h1>
+    <div className="flex h-screen bg-gray-100">
+      {/* Sidebar */}
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Header */}
+        <Header toggleSidebar={toggleSidebar} />
+        
+        {/* Main Content Area */}
+        <main className="flex-1 overflow-y-auto p-4">
+          <div className="flex items-center justify-center min-h-[calc(100vh-64px)]">
+            <div className="w-full max-w-4xl p-8 bg-white shadow-lg rounded-lg">
+              <h1 className="text-3xl font-bold mb-6">Add Credits</h1>
 
-            <div className="mb-4">
-              <label
-                htmlFor="sector"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Select Sector:
-              </label>
-              <select
-                id="sector"
-                value={sector}
-                onChange={handleSectorChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-lime-500"
-              >
-                <option value="">--Select--</option>
-                <option value="renewable">Renewable Energy</option>
-                <option value="forestry">Forestry</option>
-                <option value="waste">Waste Management</option>
-                <option value="industry">Industry & Manufacturing</option>
-                <option value="transport">Transport</option>
-              </select>
-            </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="sector"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Select Sector:
+                </label>
+                <select
+                  id="sector"
+                  value={sector}
+                  onChange={handleSectorChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-lime-500"
+                >
+                  <option value="">--Select--</option>
+                  <option value="renewable">Renewable Energy</option>
+                  <option value="forestry">Forestry</option>
+                  <option value="waste">Waste Management</option>
+                  <option value="industry">Industry & Manufacturing</option>
+                  <option value="transport">Transport</option>
+                </select>
+              </div>
 
-            {renderSectorFields()}
+              {renderSectorFields()}
 
-            <button
-              onClick={calculateCredits}
-              className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors mb-4"
-              disabled={!sector}
-            >
-              Calculate Carbon Credits
-            </button>
-
-            <div className="flex justify-end space-x-2">
               <button
-                onClick={handleCancel}
-                className="px-3 py-1 text-sm bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
+                onClick={calculateCredits}
+                className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors mb-4"
+                disabled={!sector}
               >
-                Cancel
+                Calculate Carbon Credits
               </button>
-              <button
-                onClick={handleAddCredit}
-                className="px-3 py-1 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                disabled={!result}
-              >
-                Add Credit
-              </button>
-            </div>
 
-            {result && (
-              <h3 className="mt-4 text-xl font-semibold text-center text-gray-700">
-                {result}
-              </h3>
-            )}
+              <div className="flex justify-end space-x-2">
+                <button
+                  onClick={handleCancel}
+                  className="px-3 py-1 text-sm bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleAddCredit}
+                  className="px-3 py-1 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                  disabled={!result}
+                >
+                  Add Credit
+                </button>
+              </div>
+
+              {result && (
+                <h3 className="mt-4 text-xl font-semibold text-center text-gray-700">
+                  {result}
+                </h3>
+              )}
+            </div>
           </div>
-        </div>
+        </main>
       </div>
     </div>
   );

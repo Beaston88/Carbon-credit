@@ -14,6 +14,7 @@ import ShoppingCart from "./Pages/ShoppingCart";
 import GovtDashboard from "./Pages/GovtDashboard";
 import AddCreditPage from "./Pages/AddCreditPage";
 import { AppProvider } from "./Components/AppContext";
+import { CarbonCreditProvider } from "./context/contextAPI";
 import { GetToken } from "./Pages/Token";
 import Transaction from "./Pages/Transaction";
 import ProtectedRoute from "./Components/ProtectedRoute";
@@ -21,70 +22,73 @@ import ProtectedRoute from "./Components/ProtectedRoute";
 const App = () => {
   return (
     <AppProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/pool"
-            element={
-              <ProtectedRoute>
-                <CarbonCreditDashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/cart"
-            element={
-              <ProtectedRoute>
-                <ShoppingCart />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/transaction"
-            element={
-              <ProtectedRoute>
-                <Transaction />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/govtDashboard"
-            element={
-              <ProtectedRoute>
-                <GovtDashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/AddCreditPage"
-            element={
-              <ProtectedRoute>
-                <AddCreditPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/token"
-            element={
-              <ProtectedRoute>
-                <GetToken />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="*" element={<Home />} />
-        </Routes>
-      </Router>
+      <CarbonCreditProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Navigate to="/home" replace />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/pool"
+              element={
+                <ProtectedRoute>
+                  <CarbonCreditDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/cart"
+              element={
+                <ProtectedRoute>
+                  <ShoppingCart />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/transaction"
+              element={
+                <ProtectedRoute>
+                  <Transaction />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/govtDashboard"
+              element={
+                <ProtectedRoute>
+                  <GovtDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/AddCreditPage"
+              element={
+                <ProtectedRoute>
+                  <AddCreditPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/token"
+              element={
+                <ProtectedRoute>
+                  <GetToken />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<Navigate to="/home" replace />} />
+          </Routes>
+        </Router>
+      </CarbonCreditProvider>
     </AppProvider>
   );
 };
