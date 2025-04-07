@@ -10,12 +10,22 @@ import {
   FiX,
   FiMenu,
   FiPlusCircle,
+  FiUser
 } from "react-icons/fi";
 import { getAuth, signOut } from "firebase/auth";
+import { useCarbonCredit } from "../context/contextAPI";
+import { shortenAddress } from "../utils/shortenAddress";
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [role, setRole] = useState(localStorage.getItem("role") || "");
+  const { 
+    currentAccount, 
+    disconnectWallet, 
+    connectWallet,
+    isMetaMaskInstalled,
+    isLoading 
+  } = useCarbonCredit();
   const navigate = useNavigate();
   const auth = getAuth();
 
@@ -33,10 +43,25 @@ const Sidebar = () => {
   const handleSignOut = async () => {
     try {
       await signOut(auth);
+      disconnectWallet();
       localStorage.clear();
       navigate("/home");
     } catch (error) {
       console.error("Sign out error:", error);
+    }
+  };
+
+  const handleConnectWallet = async () => {
+    if (!isMetaMaskInstalled) {
+      alert("Please install MetaMask to connect your wallet");
+      window.open("https://metamask.io/download.html", "_blank");
+      return;
+    }
+    
+    try {
+      await connectWallet();
+    } catch (error) {
+      console.error("Connection error:", error);
     }
   };
 
@@ -61,72 +86,122 @@ const Sidebar = () => {
           <FiX size={24} />
         </button>
 
-        <nav className="space-y-4">
-          {role === "SELLER" && (
-            <>
-              <Link
-                to="/dashboard"
-                className="flex items-center gap-3 text-lg hover:text-gray-300"
-              >
-                <FiMonitor /> Dashboard
-              </Link>
-              <Link
-                to="/pool"
-                className="flex items-center gap-3 text-lg hover:text-gray-300"
-              >
-                <FiHome /> Pool
-              </Link>
-              <Link
-                to="/AddCreditPage"
-                className="flex items-center gap-3 text-lg hover:text-gray-300"
-              >
-                <FiPlusCircle /> Add Credit
-              </Link>
-              <Link
-                to="/transaction"
-                className="flex items-center gap-3 text-lg hover:text-gray-300"
-              >
-                <FiCreditCard /> Transaction
-              </Link>
-              <Link
-                to="/accounts"
-                className="flex items-center gap-3 text-lg hover:text-gray-300"
-              >
-                <FiSettings /> Accounts
-              </Link>
-            </>
+        <div className="space-y-8">
+          {/* Wallet Connection Status */}
+          {currentAccount ? (
+            <div className="flex items-center gap-2 p-3 bg-green-700 rounded-lg mb-4">
+              <FiUser className="flex-shrink-0" />
+              <span className="truncate text-sm">
+                {shortenAddress(currentAccount)}
+              </span>
+            </div>
+          ) : (
+            <button
+              onClick={handleConnectWallet}
+              disabled={!isMetaMaskInstalled || isLoading}
+              className={`w-full mb-4 p-3 rounded-lg flex items-center justify-center gap-2 ${
+                isLoading || !isMetaMaskInstalled ? 'bg-gray-500' : 'bg-green-700 hover:bg-green-800'
+              }`}
+            >
+              {!isMetaMaskInstalled ? (
+                'Install MetaMask'
+              ) : isLoading ? (
+                'Connecting...'
+              ) : (
+                <>
+                  <FiUser />
+                  Connect Wallet
+                </>
+              )}
+            </button>
           )}
 
-          {role === "BUYER" && (
-            <>
-              <Link
-                to="/cart"
-                className="flex items-center gap-3 text-lg hover:text-gray-300"
-              >
-                <FiShoppingCart /> Cart
-              </Link>
-              <Link
-                to="/transaction"
-                className="flex items-center gap-3 text-lg hover:text-gray-300"
-              >
-                <FiCreditCard /> Transaction
-              </Link>
-              <Link
-                to="/accounts"
-                className="flex items-center gap-3 text-lg hover:text-gray-300"
-              >
-                <FiSettings /> Accounts
-              </Link>
-            </>
-          )}
-        </nav>
+          <nav className="space-y-4">
+            {role === "SELLER" && (
+              <>
+                <Link
+                  to="/dashboard"
+                  className="flex items-center gap-3 text-lg hover:text-gray-300"
+                  onClick={() => setIsSidebarOpen(false)}
+                >
+                  <FiMonitor /> Dashboard
+                </Link>
+                <Link
+                  to="/pool"
+                  className="flex items-center gap-3 text-lg hover:text-gray-300"
+                  onClick={() => setIsSidebarOpen(false)}
+                >
+                  <FiHome /> Pool
+                </Link>
+                <Link
+                  to="/AddCreditPage"
+                  className="flex items-center gap-3 text-lg hover:text-gray-300"
+                  onClick={() => setIsSidebarOpen(false)}
+                >
+                  <FiPlusCircle /> Add Credit
+                </Link>
+                <Link
+                  to="/transaction"
+                  className="flex items-center gap-3 text-lg hover:text-gray-300"
+                  onClick={() => setIsSidebarOpen(false)}
+                >
+                  <FiCreditCard /> Transaction
+                </Link>
+                <Link
+                  to="/accounts"
+                  className="flex items-center gap-3 text-lg hover:text-gray-300"
+                  onClick={() => setIsSidebarOpen(false)}
+                >
+                  <FiSettings /> Accounts
+                </Link>
+              </>
+            )}
 
-        <button
-          onClick={handleSignOut}
-          className="flex items-center gap-3 text-lg hover:text-gray-300"
-        >
-          <FiLogOut /> Sign out
-        </button>
+            {role === "BUYER" && (
+              <>
+                <Link
+                  to="/cart"
+                  className="flex items-center gap-3 text-lg hover:text-gray-300"
+                  onClick={() => setIsSidebarOpen(false)}
+                >
+                  <FiShoppingCart /> Cart
+                </Link>
+                <Link
+                  to="/transaction"
+                  className="flex items-center gap-3 text-lg hover:text-gray-300"
+                  onClick={() => setIsSidebarOpen(false)}
+                >
+                  <FiCreditCard /> Transaction
+                </Link>
+                <Link
+                  to="/accounts"
+                  className="flex items-center gap-3 text-lg hover:text-gray-300"
+                  onClick={() => setIsSidebarOpen(false)}
+                >
+                  <FiSettings /> Accounts
+                </Link>
+              </>
+            )}
+          </nav>
+        </div>
+
+        <div className="space-y-4">
+          {!currentAccount && !isLoading && isMetaMaskInstalled && (
+            <button
+              onClick={handleConnectWallet}
+              className="w-full p-3 bg-green-700 hover:bg-green-800 rounded-lg flex items-center justify-center gap-2"
+            >
+              <FiUser />
+              Connect Wallet
+            </button>
+          )}
+          <button
+            onClick={handleSignOut}
+            className="flex items-center gap-3 text-lg hover:text-gray-300 w-full"
+          >
+            <FiLogOut /> Sign out
+          </button>
+        </div>
       </aside>
 
       {isSidebarOpen && (

@@ -97,7 +97,6 @@ export function AppProvider({ children }) {
         currentUser,
         authLoading,
         userDetails,
-
         carbonCredits,
         setCarbonCredits,
         selectedCreditId,
