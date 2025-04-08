@@ -72,7 +72,7 @@ export function AppProvider({ children }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
-      setAuthLoading(false);
+      // setAuthLoading(false);
 
       if (user) {
         try {
