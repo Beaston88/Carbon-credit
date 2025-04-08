@@ -77,28 +77,62 @@ const GovtDashboard = () => {
                   <h3 className="font-bold">
                     {project.name}_{project.gstin}
                   </h3>
-                  <p className="text-sm text-gray-700">
-                    <strong>Energy Produced:</strong> {project.energyProduced}{" "}
-                    MWh
+                  <p className="text-sm text-gray-700 mt-2">
+                    <strong>Sector:</strong>{" "}
+                    {JSON.parse(project.description).sector}
                     <br />
-                    <strong>Grid Factor:</strong> {project.gridFactor}
-                    <br />
-                    <strong>Forest Area:</strong> {project.forestArea || "N/A"}
-                    <br />
-                    <strong>Sequestration Rate:</strong>{" "}
-                    {project.sequestrationRate} tons/year
-                    <br />
-                    <strong>Methane Captured:</strong>{" "}
-                    {project.methaneCaptured || "N/A"}
-                    <br />
-                    <strong>Baseline Emissions:</strong>{" "}
-                    {project.baselineEmissions || "N/A"}
-                    <br />
-                    <strong>Actual Emissions:</strong>{" "}
-                    {project.actualEmissions || "N/A"}
-                    <br />
-                    <strong>Fuel Saved:</strong> {project.fuelSaved || "N/A"}
+                    {JSON.parse(project.description).sector === "renewable" && (
+                      <>
+                        <strong>Energy Produced:</strong>{" "}
+                        {JSON.parse(project.description).energyProduced ||
+                          "N/A"}{" "}
+                        MWh
+                        <br />
+                        <strong>Grid Factor:</strong>{" "}
+                        {JSON.parse(project.description).gridFactor || "N/A"}
+                      </>
+                    )}
+                    {JSON.parse(project.description).sector === "forestry" && (
+                      <>
+                        <strong>Forest Area:</strong>{" "}
+                        {JSON.parse(project.description).forestArea || "N/A"} ha
+                        <br />
+                        <strong>Sequestration Rate:</strong>{" "}
+                        {JSON.parse(project.description).sequestrationRate ||
+                          "N/A"}{" "}
+                        tCO₂/ha/year
+                      </>
+                    )}
+                    {JSON.parse(project.description).sector === "waste" && (
+                      <>
+                        <strong>Methane Captured:</strong>{" "}
+                        {JSON.parse(project.description).methaneCaptured ||
+                          "N/A"}{" "}
+                        tonnes
+                      </>
+                    )}
+                    {JSON.parse(project.description).sector === "industry" && (
+                      <>
+                        <strong>Baseline Emissions:</strong>{" "}
+                        {JSON.parse(project.description).baselineEmissions ||
+                          "N/A"}{" "}
+                        tCO₂e
+                        <br />
+                        <strong>Actual Emissions:</strong>{" "}
+                        {JSON.parse(project.description).actualEmissions ||
+                          "N/A"}{" "}
+                        tCO₂e
+                      </>
+                    )}
+                    {JSON.parse(project.description).sector === "transport" && (
+                      <>
+                        <strong>Fuel Saved:</strong>{" "}
+                        {JSON.parse(project.description).fuelSaved || "N/A"}{" "}
+                        litres
+                      </>
+                    )}
                   </p>
+
                   <div className="mt-4 flex gap-2">
                     <button className="w-5/7 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
                       View Details

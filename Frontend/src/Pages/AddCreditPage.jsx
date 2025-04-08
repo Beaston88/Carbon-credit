@@ -107,7 +107,7 @@ function AddCreditPage() {
 
                 const itemData = {
                   name: `${userData.data.gst} - ${sector}`,
-                  description: JSON.stringify(formData),
+                  description: JSON.stringify({ sector, ...formData }),
                   image: imageLink || "https://placeholder.com/350x350",
                   credits: credits.toFixed(2),
                   price: "10",

@@ -63,40 +63,40 @@ export function AppProvider({ children }) {
     setVerificationStatus("✅ New Credit Added Successfully.");
   };
 
-  const [currentUser, setCurrentUser] = useState(null);
-  const [authLoading, setAuthLoading] = useState(true);
-  const auth = getAuth(app);
+  // const [currentUser, setCurrentUser] = useState(null);
+  // const [authLoading, setAuthLoading] = useState(true);
+  // const auth = getAuth(app);
 
-  const [userDetails, setUserDetails] = useState(null);
+  // const [userDetails, setUserDetails] = useState(null);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setCurrentUser(user);
-      setAuthLoading(false);
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, async (user) => {
+  //     setCurrentUser(user);
+  //     setAuthLoading(false);
 
-      if (user) {
-        try {
-          const token = await user.getIdToken();
-          const res = await getUser(token);
-          setUserDetails(res.data);
-        } catch (error) {
-          console.error("Failed to fetch user details", error);
-          setUserDetails(null);
-        }
-      } else {
-        setUserDetails(null);
-      }
-    });
+  //     if (user) {
+  //       try {
+  //         const token = await user.getIdToken();
+  //         const res = await getUser(token);
+  //         setUserDetails(res.data);
+  //       } catch (error) {
+  //         console.error("Failed to fetch user details", error);
+  //         setUserDetails(null);
+  //       }
+  //     } else {
+  //       setUserDetails(null);
+  //     }
+  //   });
 
-    return unsubscribe;
-  }, [auth]);
+  //   return unsubscribe;
+  // }, [auth]);
 
   return (
     <AppContext.Provider
       value={{
-        currentUser,
-        authLoading,
-        userDetails,
+        // currentUser,
+        // authLoading,
+        // userDetails,
         carbonCredits,
         setCarbonCredits,
         selectedCreditId,
@@ -117,7 +117,7 @@ export function AppProvider({ children }) {
         saveNewCredit,
       }}
     >
-      {!authLoading && children}
+      {children}
     </AppContext.Provider>
   );
 }
