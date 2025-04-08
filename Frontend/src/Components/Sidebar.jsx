@@ -10,7 +10,7 @@ import {
   FiX,
   FiMenu,
   FiPlusCircle,
-  FiUser
+  FiUser,
 } from "react-icons/fi";
 import { getAuth, signOut } from "firebase/auth";
 import { useCarbonCredit } from "../context/contextAPI";
@@ -19,12 +19,12 @@ import { shortenAddress } from "../utils/shortenAddress";
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [role, setRole] = useState(localStorage.getItem("role") || "");
-  const { 
-    currentAccount, 
-    disconnectWallet, 
+  const {
+    currentAccount,
+    disconnectWallet,
     connectWallet,
     isMetaMaskInstalled,
-    isLoading 
+    isLoading,
   } = useCarbonCredit();
   const navigate = useNavigate();
   const auth = getAuth();
@@ -45,7 +45,7 @@ const Sidebar = () => {
       await signOut(auth);
       disconnectWallet();
       localStorage.clear();
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       console.error("Sign out error:", error);
     }
@@ -57,7 +57,7 @@ const Sidebar = () => {
       window.open("https://metamask.io/download.html", "_blank");
       return;
     }
-    
+
     try {
       await connectWallet();
     } catch (error) {
@@ -100,13 +100,15 @@ const Sidebar = () => {
               onClick={handleConnectWallet}
               disabled={!isMetaMaskInstalled || isLoading}
               className={`w-full mb-4 p-3 rounded-lg flex items-center justify-center gap-2 ${
-                isLoading || !isMetaMaskInstalled ? 'bg-gray-500' : 'bg-green-700 hover:bg-green-800'
+                isLoading || !isMetaMaskInstalled
+                  ? "bg-gray-500"
+                  : "bg-green-700 hover:bg-green-800"
               }`}
             >
               {!isMetaMaskInstalled ? (
-                'Install MetaMask'
+                "Install MetaMask"
               ) : isLoading ? (
-                'Connecting...'
+                "Connecting..."
               ) : (
                 <>
                   <FiUser />
@@ -172,13 +174,6 @@ const Sidebar = () => {
                   onClick={() => setIsSidebarOpen(false)}
                 >
                   <FiCreditCard /> Transaction
-                </Link>
-                <Link
-                  to="/accounts"
-                  className="flex items-center gap-3 text-lg hover:text-gray-300"
-                  onClick={() => setIsSidebarOpen(false)}
-                >
-                  <FiSettings /> Accounts
                 </Link>
               </>
             )}

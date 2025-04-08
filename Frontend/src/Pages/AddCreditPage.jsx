@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getUser } from "../api/user.js"
+import { getUser } from "../api/user.js";
 import { createMarketplaceItem } from "../api/marketplace.js";
 import { getAuth, getIdToken, onAuthStateChanged } from "firebase/auth";
 import Sidebar from "../Components/Sidebar.jsx";
@@ -23,6 +23,7 @@ function AddCreditPage() {
   const [result, setResult] = useState("");
   const [userGST, setUserGST] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -73,6 +74,7 @@ function AddCreditPage() {
         credits = 0;
     }
     setResult(`Estimated Carbon Credits: ${credits.toFixed(2)} tCO₂e`);
+
     return credits;
   };
 
@@ -81,6 +83,8 @@ function AddCreditPage() {
       alert("Please calculate credits first");
       return;
     }
+
+    setLoading(true);
 
     try {
       const credits = calculateCredits();
@@ -96,9 +100,8 @@ function AddCreditPage() {
               try {
                 const token = await getIdToken(user);
 
-                if (!token) {
+                if (!token)
                   throw new Error("No authentication token available");
-                }
 
                 const userData = await getUser(token);
 
@@ -114,7 +117,6 @@ function AddCreditPage() {
                   token,
                   itemData
                 );
-
                 console.log(createdItem);
 
                 resolve(createdItem);
@@ -122,18 +124,26 @@ function AddCreditPage() {
                 console.error("Failed to add credit to marketplace", error);
                 alert("Failed to add credit to marketplace");
                 reject(error);
+              } finally {
+                setLoading(false);
               }
             } else {
               alert("Please sign in");
+              setLoading(false);
               reject(new Error("User not authenticated"));
             }
           },
-          reject
+          (error) => {
+            console.error("Auth error", error);
+            setLoading(false);
+            reject(error);
+          }
         );
       });
     } catch (error) {
       console.error("Unexpected error in add credit process", error);
       alert("An unexpected error occurred");
+      setLoading(false);
       throw error;
     }
   };
@@ -353,12 +363,12 @@ function AddCreditPage() {
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      
+
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
         <Header toggleSidebar={toggleSidebar} />
-        
+
         {/* Main Content Area */}
         <main className="flex-1 overflow-y-auto p-4">
           <div className="flex items-center justify-center min-h-[calc(100vh-64px)]">
@@ -406,10 +416,14 @@ function AddCreditPage() {
                 </button>
                 <button
                   onClick={handleAddCredit}
-                  className="px-3 py-1 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                  disabled={!result}
+                  className={`px-3 py-1 text-sm rounded-lg text-white transition-colors ${
+                    loading
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-green-600 hover:bg-green-700"
+                  }`}
+                  disabled={!result || loading}
                 >
-                  Add Credit
+                  {loading ? "Waiting for Approval..." : "Add Credit"}
                 </button>
               </div>
 
