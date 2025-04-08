@@ -5,7 +5,6 @@ import {
   FiHome,
   FiShoppingCart,
   FiCreditCard,
-  FiSettings,
   FiLogOut,
   FiX,
   FiMenu,
@@ -149,13 +148,13 @@ const Sidebar = () => {
                 >
                   <FiCreditCard /> Transaction
                 </Link>
-                <Link
+                {/* <Link
                   to="/accounts"
                   className="flex items-center gap-3 text-lg hover:text-gray-300"
                   onClick={() => setIsSidebarOpen(false)}
                 >
                   <FiSettings /> Accounts
-                </Link>
+                </Link> */}
               </>
             )}
 

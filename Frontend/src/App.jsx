@@ -17,7 +17,6 @@ import { AppProvider } from "./Components/AppContext";
 import { CarbonCreditProvider } from "./context/contextAPI";
 import { GetToken } from "./Pages/Token";
 import Transaction from "./Pages/Transaction";
-import ProtectedRoute from "./Components/ProtectedRoute";
 
 const App = () => {
   return (
@@ -31,57 +30,43 @@ const App = () => {
             <Route
               path="/dashboard"
               element={
-                <ProtectedRoute>
                   <Dashboard />
-                </ProtectedRoute>
               }
             />
             <Route
               path="/pool"
               element={
-                <ProtectedRoute>
                   <CarbonCreditDashboard />
-                </ProtectedRoute>
               }
             />
             <Route
               path="/cart"
               element={
-                <ProtectedRoute>
                   <ShoppingCart />
-                </ProtectedRoute>
               }
             />
             <Route
               path="/transaction"
               element={
-                <ProtectedRoute>
                   <Transaction />
-                </ProtectedRoute>
               }
             />
             <Route
               path="/govtDashboard"
               element={
-                <ProtectedRoute>
                   <GovtDashboard />
-                </ProtectedRoute>
               }
             />
             <Route
               path="/AddCreditPage"
               element={
-                <ProtectedRoute>
                   <AddCreditPage />
-                </ProtectedRoute>
               }
             />
             <Route
               path="/token"
               element={
-                <ProtectedRoute>
                   <GetToken />
-                </ProtectedRoute>
               }
             />
             <Route path="*" element={<Navigate to="/" />} />
