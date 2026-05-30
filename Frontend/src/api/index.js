@@ -47,8 +47,7 @@ export const createApiClient = (token) => {
  */
 export const pingBackend = async () => {
   try {
-    const response = await axios.get(`${apiURL}`);
-    // console.log("Backend ping response:", response.data);
+    await axios.get(`${apiURL}`);
   } catch (error) {
     // console.error("Error pinging backend:", error);
   }
