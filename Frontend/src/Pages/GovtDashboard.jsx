@@ -10,7 +10,7 @@ const GovtDashboard = () => {
   const getFirebaseToken = async () => {
     const user = auth.currentUser;
     if (user) {
-      console.log("Current User:", user);
+      // console.log("Current User:", user);
       return await user.getIdToken();
     }
     throw new Error("User not authenticated");
@@ -21,7 +21,7 @@ const GovtDashboard = () => {
       setLoading(true);
       const token = await getFirebaseToken();
       const response = await getVerifiedListings(token, false);
-      console.log(response);
+      // console.log(response);
       setProjects(response.data);
     } catch (err) {
       console.error("Error fetching projects:", err);
@@ -50,7 +50,7 @@ const GovtDashboard = () => {
       const token = await getFirebaseToken();
       await verifyListing(token, id);
       setProjects((prevProjects) =>
-        prevProjects.filter((project) => project.id !== id)
+        prevProjects.filter((project) => project.id !== id),
       );
     } catch (err) {
       console.error("Error verifying project:", err);
@@ -59,25 +59,27 @@ const GovtDashboard = () => {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col overflow-y-auto overflow-x-hidden">
+    <div className="font-mono">
       <div className="flex-1 flex flex-col p-6">
-        <h2 className="text-4xl font-bold">Carbon Credit Listings</h2>
+        <h2 className="text-4xl font-bold">
+          Carbon Credit Listings (govt only)
+        </h2>
         {loading ? (
           <p>Loading...</p>
         ) : error ? (
           <p className="text-red-500">{error}</p>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-5">
+            <div className="mx-5 grid grid-cols-1 md:grid-cols-2 gap-10 mt-5">
               {projects.map((project) => (
                 <div
                   key={project.id}
-                  className="bg-gray-200 p-4 rounded-lg shadow"
+                  className="bg-gray-200 p-4 rounded-xl shadow"
                 >
                   <h3 className="font-bold">
                     {project.name}_{project.gstin}
                   </h3>
-                  <p className="text-sm text-gray-700 mt-2">
+                  <p className="text-sm text-gray-700 mt-2 h-16">
                     <strong>Sector:</strong>{" "}
                     {JSON.parse(project.description).sector}
                     <br />
@@ -132,33 +134,27 @@ const GovtDashboard = () => {
                       </>
                     )}
                   </p>
-
-                  <div className="mt-4 flex gap-2">
-                    <button className="w-5/7 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-                      View Details
-                    </button>
-                    <button
-                      className="w-2/7 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-                      onClick={() => handleVerify(project.id)}
-                    >
-                      Verify
-                    </button>
-                  </div>
+                  <button
+                    className="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                    onClick={() => handleVerify(project.id)}
+                  >
+                    Verify
+                  </button>
                 </div>
               ))}
             </div>
 
             <h2 className="text-xl font-bold mt-12">Administrative Tasks</h2>
-            <div className="flex flex-col gap-5 mt-3">
+            <div className="flex gap-5 mt-3">
               {["Manage Users", "Review Reports", "System Settings"].map(
                 (task, index) => (
                   <button
                     key={index}
-                    className="bg-green-600 text-white px-4 py-5 rounded text-center hover:bg-green-700"
+                    className="bg-green-600 text-white px-4 py-5 rounded text-center hover:bg-green-700 w-full"
                   >
                     {task}
                   </button>
-                )
+                ),
               )}
             </div>
           </>

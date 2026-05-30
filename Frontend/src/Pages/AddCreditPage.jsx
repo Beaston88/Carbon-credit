@@ -117,7 +117,7 @@ function AddCreditPage() {
                   token,
                   itemData
                 );
-                console.log(createdItem);
+                // console.log(createdItem);
 
                 resolve(createdItem);
               } catch (error) {
