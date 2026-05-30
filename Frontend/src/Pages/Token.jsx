@@ -6,7 +6,7 @@ export function GetToken() {
     const auth = getAuth();
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const token = await getIdToken(user);
+        await getIdToken(user);
         // console.log(token);
       } else {
         // console.log("sign in");
