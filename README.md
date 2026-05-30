@@ -56,10 +56,14 @@ A marketplace for the trading of carbon credits aimed at encouraging environment
   npm install
   npm run start
   ```
-  - Ensure the backend is accessible at [`https://carbon-credit-qi44.onrender.com/`](https://carbon-credit-qi44.onrender.com/)
+  - When running locally, the backend is available by default at [`http://localhost:3200`](http://localhost:3200)
+  - If you want to use the deployed backend instead, use [`https://carbon-credit-qi44.onrender.com/`](https://carbon-credit-qi44.onrender.com/)
 
 ### 2. Frontend
 
+- Before starting the frontend, update the frontend `apiURL` to match the backend you want to use:
+  - Local backend: `http://localhost:3200`
+  - Deployed backend: `https://carbon-credit-qi44.onrender.com/`
 - In a new terminal window/tab:
   ```sh
   cd frontend
